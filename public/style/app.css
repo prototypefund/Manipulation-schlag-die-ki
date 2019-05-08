@@ -1,0 +1,9 @@
+h1 {text-align: center;}
+
+.panel {margin-bottom: 2em;
+        height: 200px}
+
+img {height: 200px}
+
+/* buttons should span full column width */
+button {width: 100%; box-sizing: border-box; }

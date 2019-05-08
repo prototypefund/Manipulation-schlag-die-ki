@@ -1,23 +1,44 @@
-<!DOCTYPE html>
+<!doctype html>
+
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="generator" content="GitLab Pages">
-    <title>Plain HTML site using GitLab Pages</title>
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
-    <div class="navbar">
-      <a href="https://pages.gitlab.io/plain-html/">Plain HTML Example</a>
-      <a href="https://gitlab.com/pages/plain-html/">Repository</a>
-      <a href="https://gitlab.com/pages/">Other Examples</a>
+<head>
+    <title>SCHLAG DIE KI</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="style/app.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <app>
+            <header></header>
+            <game></game>
+            <footer></footer>
+        </app>
     </div>
 
-    <h1>Hello World!</h1>
+    <script src="tags/header.tag" type="riot/tag"></script>
+    <script src="tags/game.tag" type="riot/tag"></script>
+    <script src="tags/footer.tag" type="riot/tag"></script>
 
-    <p>
-      This is a simple plain-HTML website on GitLab Pages, without any fancy static site generator.
-    </p>
-  </body>
+    <script src="data.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/gh/riot/riot/riot%2Bcompiler.min.js"></script>
+
+    <script>
+        // use one global observable to communicate between tags
+        var SharedObservableMixin = {
+            observable: riot.observable()
+        };
+        // enable this observable for all tags
+        riot.mixin(SharedObservableMixin);
+
+        // mount the app
+        riot.mount('*', DATA[0]);
+    </script>
+
+</body>
+
 </html>
-
