@@ -24,9 +24,18 @@
     <div class="row">
         <div class="four columns">&nbsp;</div>
         <div class="four columns">
-            <progress-bar value=0></progress-bar>
+            <timer length=3 control={timer}></timer>
         </div>
     </div>
+
+    <script>
+        timer = riot.observable();
+        timer.on("timeout", () => console.log("timeout"));
+
+        this.on("mount", () => timer.trigger("start"));
+
+        this.observable.on("human_correct", () => timer.trigger("stop"));
+    </script>
 </game>
 
 
@@ -39,26 +48,7 @@
     </script>
 </challenge>
 
-<progress-bar>
-    <progress value={this.value} max="10"></progress>
 
-    <script>
-        this.value = opts.value;
-        this.currentTimeout = null;
-        this.stopped = false;
-
-        setTimeout(() => {this.value +=0.5;this.update();}, 500);
-        /*scheduleTimeout = function(e) {
-            console.log(parent.value);
-            if ((!this.stopped) && (this.value<10)) {
-               this.currentTimeout = setTimeout(scheduleTimeout, 1000);
-               this.value += 1;
-            }
-        };
-        scheduleTimeout();*/
-    </script>
-
-</progress-bar>
 
 <answer>
     <button onclick={checkAnswer} disabled={this.disabled} class={this.status}>{opts.name}</button>

@@ -1,0 +1,49 @@
+<timer>
+    <progress value={this.value} max={this.max}></progress>
+
+    <script>
+        let tag = this;
+
+        /* parameters given to this tag
+        opts.length: Length of the timer (in seconds)
+        opts.control: observable for communicating/controlling status of the timer, supports the following messages
+                     todo not so nice that this conflates control and communication, but two observables seem overkill
+               start: (from parent) trigger start of the timer
+               stop: (from parent) trigger stopping of the timer
+               timeout: (from timer) timer has run out
+        */
+        opts.length = Number(opts.length) || 10;
+
+        // calculate settings for progress bar
+        tag.max = opts.length * 1000;  // to milliseconds
+        tag.value = 0;
+        tag.stepTime = 10;   // in milliseconds
+        tag.stepSize = tag.stepTime;
+        tag.currentTimeout = null;
+
+        function increment() {
+            tag.value += tag.stepSize;
+            tag.update();
+            if (isFinished())
+                opts.control.trigger("timeout");
+        }
+
+        function scheduleNextStep() {
+            if (!isFinished())
+                tag.currentTimeout = setTimeout(() => {increment(); scheduleNextStep()}, tag.stepTime);
+        }
+
+        function stop() {
+            if (tag.currentTimeout != null)
+                clearTimeout(tag.currentTimeout);
+        }
+
+        function isFinished() {
+            return tag.value >= tag.max;
+        }
+
+        opts.control.on("start", scheduleNextStep);
+        opts.control.on("stop", stop);
+    </script>
+
+</timer>
