@@ -6,8 +6,3 @@ h1 {text-align: center;}
 img {height: 200px}
 
 /* some elements should span full column width */
-button {width: 100%; box-sizing: border-box; }
-progress {width: 100%; box-sizing: border-box; }
-
-.correct {background-color: green}
-.incorrect {background-color: red}

@@ -1,0 +1,51 @@
+<answer-collection>
+    <div class="three columns">&nbsp;</div>
+    <div each={opts.answers} class="two columns">
+        <answer name={name} correct={correct}></answer>
+    </div>
+
+    <style>
+        button {width: 100%; box-sizing: border-box; }
+
+        button:disabled {cursor: default;}
+
+        .unselected:disabled,
+        .unselected:disabled:hover {border-color:#bbb; color: #555}
+
+        .correct,
+        .correct:hover,
+        .correct:focus,
+        .correct:disabled {border-color: green; color: green}
+
+        .incorrect,
+        .incorrect:hover,
+        .incorrect:focus,
+        .incorrect:disabled {border-color: red; color: red}
+
+    </style>
+</answer-collection>
+
+
+<answer>
+    <button onclick={checkAnswer} disabled={this.disabled} class={this.status}>{opts.name}</button>
+
+    <script>
+        this.status = "unselected";
+        this.correct = opts.correct;   // somehow opts.correct resets to false after first access, copying it fixes that
+        this.disabled = false;
+
+        this.observable.on("human_correct", () => {this.disabled="disabled"; this.update();});
+
+        checkAnswer = function(e) {
+            if (this.correct) {
+                this.status = "correct";
+                this.observable.trigger("human_correct");
+            }
+            else {
+                this.status = "incorrect";
+                this.observable.trigger("human_incorrect");
+            }
+            this.update();
+        };
+    </script>
+</answer>

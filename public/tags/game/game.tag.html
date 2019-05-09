@@ -12,10 +12,7 @@
 
     <!-- answers -->
     <div class="row">
-        <div class="three columns">&nbsp;</div>
-        <div each={opts.answers} class="two columns">
-            <answer name={name} correct={correct}></answer>
-        </div>
+        <answer-collection answers={opts.answers}></answer-collection>
     </div>
 
     <br/>
@@ -47,28 +44,3 @@
         this.observable.on("init_round", args => console.log(args));
     </script>
 </challenge>
-
-
-
-<answer>
-    <button onclick={checkAnswer} disabled={this.disabled} class={this.status}>{opts.name}</button>
-
-    <script>
-        this.status = "";
-        this.correct = opts.correct;   // somehow opts.correct resets to false after first access, copying it fixes that
-        this.disabled = false;
-
-        this.observable.on("human_correct", () => {this.disabled="disabled"; this.update();});
-
-        checkAnswer = function(e) {
-            if (this.correct) {
-                this.status = "correct";
-                this.observable.trigger("human_correct");
-            }
-            else {
-                this.status = "incorrect";
-                this.observable.trigger("human_incorrect");
-            }
-        };
-    </script>
-</answer>
