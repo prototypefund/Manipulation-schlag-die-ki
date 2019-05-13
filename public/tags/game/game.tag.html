@@ -12,7 +12,7 @@
 
     <!-- answers -->
     <div class="row">
-        <answer-collection answers={opts.answers}></answer-collection>
+        <answers answers={opts.answers} correct={opts.correct} controller={answers}></answers>
     </div>
 
     <br/>
@@ -21,17 +21,21 @@
     <div class="row">
         <div class="four columns">&nbsp;</div>
         <div class="four columns">
-            <timer length=3 control={timer}></timer>
+            <timer length=3 controller={timer}></timer>
         </div>
     </div>
 
     <script>
         timer = riot.observable();
-        timer.on("timeout", () => console.log("timeout"));
+        answers = riot.observable();
 
+
+        timer.on("timeout", () => answers.trigger("disable"));
+        answers.on("correct", () => {timer.trigger("stop"); answers.trigger("disable")});
+        answers.on("incorrect", () => {timer.trigger("stop"); answers.trigger("disable")});
+
+        // ON MOUNT
         this.on("mount", () => timer.trigger("start"));
-
-        this.observable.on("human_correct", () => timer.trigger("stop"));
     </script>
 </game>
 

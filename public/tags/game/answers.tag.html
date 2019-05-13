@@ -1,0 +1,57 @@
+<answers>
+    <div class="three columns">&nbsp;</div>
+    <div each={answer in this.answers} class="two columns">
+        <button onclick={this.checkAnswer} class={answer.state} disabled={disabled}>{answer.name}</button>
+    </div>
+
+    <script>
+        /* parameters given to this tag
+        opts.answer: List of answers (strings)
+        opts.correct: Index of correct answer in opts.answers
+        opts.controller: observable for communicating/controlling status of the timer, supports the following messages
+            disable: (from parent) disable all inputs
+            correct: (from this tag) user has clicked on correct button
+            incorrect: (from this tag) user has clicked on wrong button
+        */
+        this.disabled = false;
+
+        // in addition to answer name (given as a parameter), also need index (more convenient) and state
+        this.answers = [];
+        for (var i = 0; i < opts.answers.length; i++)
+            this.answers[i] = {"name": opts.answers[i], "index": i, "state": "default"};
+
+        this.checkAnswer = function(e) {
+            const selected = e.item.answer.index;
+            if (selected == opts.correct) {
+                this.answers[selected].state = "correct";
+                opts.controller.trigger("correct");
+            }
+            else {
+                this.answers[selected].state = "incorrect";
+                opts.controller.trigger("incorrect");
+            }};
+
+        opts.controller.on("disable", ()=>{this.disabled="disabled"; this.update();});
+    </script>
+
+    <style>
+        button {width: 100%; box-sizing: border-box; }
+
+        button:disabled {cursor: default;}
+
+        .default:disabled,
+        .default:disabled:focus,
+        .default:disabled:hover {border-color:#bbb; color: #555}
+
+        .correct,
+        .correct:hover,
+        .correct:focus,
+        .correct:disabled {border-color: green; color: green}
+
+        .incorrect,
+        .incorrect:hover,
+        .incorrect:focus,
+        .incorrect:disabled {border-color: red; color: red}
+
+    </style>
+</answers>

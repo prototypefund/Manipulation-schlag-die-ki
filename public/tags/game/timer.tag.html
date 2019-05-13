@@ -6,11 +6,10 @@
 
         /* parameters given to this tag
         opts.length: Length of the timer (in seconds)
-        opts.control: observable for communicating/controlling status of the timer, supports the following messages
-                     todo not so nice that this conflates control and communication, but two observables seem overkill
+        opts.controller: observable for communicating/controlling status of the timer, supports the following messages
                start: (from parent) trigger start of the timer
                stop: (from parent) trigger stopping of the timer
-               timeout: (from timer) timer has run out
+               timeout: (from this tag) timer has run out
         */
         opts.length = Number(opts.length) || 10;
 
@@ -25,7 +24,7 @@
             tag.value += tag.stepSize;
             tag.update();
             if (isFinished())
-                opts.control.trigger("timeout");
+                opts.controller.trigger("timeout");
         }
 
         function scheduleNextStep() {
@@ -42,8 +41,8 @@
             return tag.value >= tag.max;
         }
 
-        opts.control.on("start", scheduleNextStep);
-        opts.control.on("stop", stop);
+        opts.controller.on("start", scheduleNextStep);
+        opts.controller.on("stop", stop);
     </script>
 
     <style>
