@@ -2,50 +2,59 @@
 
     <h1 class="centered"> Runde 1 </h1>
 
-    <!-- space for instruction text -->
-    <text-panel class="centered hidden" text={textPanel.text}></text-panel>
+    <instructions class="centered {hidden: instructions.hidden}"
+                  text={instructions.text}
+                  visibleFor="3"
+                  callback={this.startChallenge}></instructions>
 
-    <!-- the challenge image -->
-    <image-panel class="centered" image={opts.image}></image-panel>
+    <challenge class="centered {hidden: challenge.hidden}"
+               image={opts.image}></challenge>
 
-    <!-- answers -->
-    <answers class="centered" answers={opts.answers} correct={opts.correct} controller={answers}></answers>
+    <answers class="centered"
+             answers={opts.answers}
+             correct={opts.correct}
+             disabled={this.answers.disabled}
+             callback={this.answerSelected}></answers>
 
-    <!-- progress bar -->
-    <timer class="centered" length=3 controller={timer}></timer>
+    <timer class="centered {hidden2: timer.hidden}"
+           length=3
+           callback={tag.timeout}
+           controller={timer.controller}></timer>
+
 
     <script>
         var tag = this;
 
-        tag.imagePanel = {"hidden": true};
-        tag.textPanel = {"hidden": false, "text": "Hier erscheint gleich ein Bild. Welches Verkehrszeichen ist zu sehen?"};
+        // state of the nested tags
+        tag.answers = {"disabled": false};
+        tag.challenge = {"hidden": true};
+        tag.instructions = {"hidden": false, "text": TEXT.intro};
+        tag.timer = {"hidden": true, "controller": riot.observable()};
 
+        tag.startChallenge = function(){
+            tag.challenge.hidden=false;
+            tag.instructions.hidden=true;
+            tag.timer.hidden = false;
+            tag.timer.controller.trigger("start");
+            tag.update();
+        };
 
+        tag.answerSelected = function(isCorrect){
+            tag.timer.controller.trigger("stop");
+            tag.answers.disabled = true;
+            tag.update()
+        };
 
-        timer = riot.observable();
-        answers = riot.observable();
-
-
-        timer.on("timeout", () => answers.trigger("disable"));
-        answers.on("correct", () => {timer.trigger("stop"); answers.trigger("disable")});
-        answers.on("incorrect", () => {timer.trigger("stop"); answers.trigger("disable")});
-
-        this.on("mount", () => timer.trigger("start"));
+        tag.timeout = function() {
+            tag.answers.disabled = true;
+            tag.update();
+        };
     </script>
 </game>
 
 
 
-<image-panel>
-    <img src={opts.image} class="panel" alt="challenge image"/>
+<challenge>
+    <img src={opts.image} class="challenge" alt="challenge image"/>
+</challenge>
 
-    <!--script>
-        this.observable.on("new image", args => console.log(args));
-    </script-->
-</image-panel>
-
-<text-panel>
-    <span class="panel"> {opts.text}</span>
-
-    <!--text-align: center;-->
-</text-panel>

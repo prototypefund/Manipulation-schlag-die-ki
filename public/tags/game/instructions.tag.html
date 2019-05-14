@@ -1,0 +1,40 @@
+<instructions>
+    <div class="instructions">
+        <p>{opts.text}</p>
+
+        <p>In <strong> {this.value} </strong> Sekunden geht's los!</p>
+    </div>
+
+    <script>
+
+        /* tag parameters
+        opts.text: Instruction text to display
+        opts.visibleFor: How long the instructions should be visible [seconds]
+        opts.callback: Function to call when instruction have been visible for the specified amount */
+
+        tag = this;
+        tag.value =  Number(opts.visibleFor) || 3;
+        tag.timer = null;
+
+        tag.initTimer = function() {
+            tag.timer = setInterval(tag.updateValue, 1000);
+        };
+
+        tag.updateValue = function(){
+            if (tag.value > 1){
+                tag.value -=1;
+                tag.update();
+            }
+            else {
+                tag.stopTimer();
+                opts.callback();
+            }
+        };
+
+        tag.stopTimer = function() {
+            clearInterval(tag.timer);
+        };
+
+        tag.on("mount", tag.initTimer);
+    </script>
+</instructions>

@@ -1,18 +1,16 @@
 <answers>
     <div class="answers" each={answer in this.answers}>
-        <button onclick={this.checkAnswer} class={answer.state} disabled={disabled}>{answer.name}</button>
+        <button onclick={this.checkAnswer} class={answer.state} disabled={opts.disabled}>{answer.name}</button>
     </div>
 
     <script>
         /* parameters given to this tag
         opts.answer: List of answers (strings)
         opts.correct: Index of correct answer in opts.answers
-        opts.controller: observable for communicating/controlling status of the timer, supports the following messages
-            disable: (from parent) disable all inputs
-            correct: (from this tag) user has clicked on correct button
-            incorrect: (from this tag) user has clicked on wrong button
+        opts.disabled: Whether input is disabled (true/false)
+        opts.callback: Function to call when answer has been selected,
+                       callback parameters: true (correct answer) or false (incorrect answer)
         */
-        this.disabled = false;
 
         // in addition to answer name (given as a parameter), also need index (more convenient) and state
         this.answers = [];
@@ -23,14 +21,12 @@
             const selected = e.item.answer.index;
             if (selected == opts.correct) {
                 this.answers[selected].state = "correct";
-                opts.controller.trigger("correct");
+                opts.callback(true);
             }
             else {
                 this.answers[selected].state = "incorrect";
-                opts.controller.trigger("incorrect");
+                opts.callback(false);
             }};
-
-        opts.controller.on("disable", ()=>{this.disabled="disabled"; this.update();});
     </script>
 
     <style>

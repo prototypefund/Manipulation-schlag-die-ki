@@ -18,31 +18,29 @@
         tag.value = 0;
         tag.stepTime = 10;   // in milliseconds
         tag.stepSize = tag.stepTime;
-        tag.currentTimeout = null;
+        tag.timer = null;
 
-        function increment() {
+        tag.initTimer = function() {
+            tag.timer = setInterval(tag.updateValue, tag.stepTime);
+        };
+
+        tag.updateValue = function() {
             tag.value += tag.stepSize;
             tag.update();
-            if (isFinished())
-                opts.controller.trigger("timeout");
-        }
 
-        function scheduleNextStep() {
-            if (!isFinished())
-                tag.currentTimeout = setTimeout(() => {increment(); scheduleNextStep()}, tag.stepTime);
-        }
+            if (tag.value >= tag.max) {
+                tag.stopTimer();
+                opts.callback();
+            }
+        };
 
-        function stop() {
-            if (tag.currentTimeout != null)
-                clearTimeout(tag.currentTimeout);
-        }
+        tag.stopTimer = function(){
+            clearInterval(tag.timer);
+        };
 
-        function isFinished() {
-            return tag.value >= tag.max;
-        }
 
-        opts.controller.on("start", scheduleNextStep);
-        opts.controller.on("stop", stop);
+        opts.controller.on("start", tag.initTimer);
+        opts.controller.on("stop", tag.stopTimer);
     </script>
 
 </timer>
