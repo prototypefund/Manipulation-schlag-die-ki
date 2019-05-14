@@ -6,17 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
-    <link rel="stylesheet" href="style/app.css">
+    <link rel="stylesheet" href="style/layout.css">
 </head>
 
 <body>
 
-    <div class="container">
-        <app>
-            <header></header>
-            <game></game>
-            <footer></footer>
-        </app>
+    <div class="app">
+        <header></header>
+        <game></game>
+        <footer></footer>
     </div>
 
     <script src="tags/header.tag.html" type="riot/tag"></script>
@@ -38,7 +36,9 @@
         riot.mixin(SharedObservableMixin);
 
         // mount the app
-        riot.mount('*', DATA[0]);
+        riot.mount('header', DATA[0]);
+        riot.mount('game', DATA[0]);
+        riot.mount('footer', DATA[0]);
     </script>
 
 </body>

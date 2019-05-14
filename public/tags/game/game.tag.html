@@ -1,31 +1,27 @@
 <game>
 
-    <div class="row">
-        <h1> Runde 1 </h1>
-    </div>
+    <h1 class="centered"> Runde 1 </h1>
 
-    <div class="row">
-        <div class="one-half columns offset-by-four panel">
-           <challenge image={opts.image}></challenge>
-        </div>
-    </div>
+    <!-- space for instruction text -->
+    <text-panel class="centered hidden" text={textPanel.text}></text-panel>
+
+    <!-- the challenge image -->
+    <image-panel class="centered" image={opts.image}></image-panel>
 
     <!-- answers -->
-    <div class="row">
-        <answers answers={opts.answers} correct={opts.correct} controller={answers}></answers>
-    </div>
-
-    <br/>
+    <answers class="centered" answers={opts.answers} correct={opts.correct} controller={answers}></answers>
 
     <!-- progress bar -->
-    <div class="row">
-        <div class="four columns">&nbsp;</div>
-        <div class="four columns">
-            <timer length=3 controller={timer}></timer>
-        </div>
-    </div>
+    <timer class="centered" length=3 controller={timer}></timer>
 
     <script>
+        var tag = this;
+
+        tag.imagePanel = {"hidden": true};
+        tag.textPanel = {"hidden": false, "text": "Hier erscheint gleich ein Bild. Welches Verkehrszeichen ist zu sehen?"};
+
+
+
         timer = riot.observable();
         answers = riot.observable();
 
@@ -34,17 +30,22 @@
         answers.on("correct", () => {timer.trigger("stop"); answers.trigger("disable")});
         answers.on("incorrect", () => {timer.trigger("stop"); answers.trigger("disable")});
 
-        // ON MOUNT
         this.on("mount", () => timer.trigger("start"));
     </script>
 </game>
 
 
 
-<challenge>
-    <img src={opts.image} alt="challenge image"/>
+<image-panel>
+    <img src={opts.image} class="panel" alt="challenge image"/>
 
-    <script>
-        this.observable.on("init_round", args => console.log(args));
-    </script>
-</challenge>
+    <!--script>
+        this.observable.on("new image", args => console.log(args));
+    </script-->
+</image-panel>
+
+<text-panel>
+    <span class="panel"> {opts.text}</span>
+
+    <!--text-align: center;-->
+</text-panel>

@@ -1,0 +1,43 @@
+/* this is just to center the main app container */
+body {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+}
+
+/* main container for the app */
+.app {
+    display: flex;
+    flex-direction: column;
+    width: 800px;
+}
+
+/* centered row, all items should use this class */
+.centered {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+
+.panel {
+    display: flex;
+    height: 20em;
+    max-width: 80%;
+}
+
+hr {width: 100%}
+
+.hidden {display: none;}
+
+progress {
+    margin-top: 2em;
+    width: 60%;
+}
+
+.answers {
+    margin-top: 2em;
+}
+

@@ -1,6 +1,5 @@
 <answers>
-    <div class="three columns">&nbsp;</div>
-    <div each={answer in this.answers} class="two columns">
+    <div class="answers" each={answer in this.answers}>
         <button onclick={this.checkAnswer} class={answer.state} disabled={disabled}>{answer.name}</button>
     </div>
 
@@ -35,7 +34,7 @@
     </script>
 
     <style>
-        button {width: 100%; box-sizing: border-box; }
+        button {margin-left: 2em; margin-right: 2em;}
 
         button:disabled {cursor: default;}
 
