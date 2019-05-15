@@ -10,7 +10,7 @@
         /* tag parameters
         opts.text: Instruction text to display
         opts.visibleFor: How long the instructions should be visible [seconds]
-        opts.callback: Function to call when instruction have been visible for the specified amount */
+        opts.ontimeout: Function to call when instruction have been visible for the specified amount */
 
         tag = this;
         tag.value =  Number(opts.visibleFor) || 3;
@@ -27,7 +27,7 @@
             }
             else {
                 tag.stopTimer();
-                opts.callback();
+                opts.ontimeout();
             }
         };
 

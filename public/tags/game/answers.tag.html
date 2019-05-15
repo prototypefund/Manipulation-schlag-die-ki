@@ -8,8 +8,8 @@
         opts.answer: List of answers (strings)
         opts.correct: Index of correct answer in opts.answers
         opts.disabled: Whether input is disabled (true/false)
-        opts.callback: Function to call when answer has been selected,
-                       callback parameters: true (correct answer) or false (incorrect answer)
+        opts.onselected: Function to call when answer has been selected,
+                         callback parameters: true (correct answer) or false (incorrect answer)
         */
 
         // in addition to answer name (given as a parameter), also need index (more convenient) and state
@@ -21,12 +21,13 @@
             const selected = e.item.answer.index;
             if (selected == opts.correct) {
                 this.answers[selected].state = "correct";
-                opts.callback(true);
+                opts.onselected(true);
             }
             else {
                 this.answers[selected].state = "incorrect";
-                opts.callback(false);
+                opts.onselected(false);
             }};
+
     </script>
 
     <style>

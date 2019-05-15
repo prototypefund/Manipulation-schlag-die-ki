@@ -6,10 +6,10 @@
 
         /* parameters given to this tag
         opts.length: Length of the timer (in seconds)
-        opts.controller: observable for communicating/controlling status of the timer, supports the following messages
-               start: (from parent) trigger start of the timer
+        opts.ontimeout: Function to call when timer has run out
+        opts.status: observable for controlling status of the timer, supports the following messages
+               start: (from parent) trigger starting of the timer
                stop: (from parent) trigger stopping of the timer
-               timeout: (from this tag) timer has run out
         */
         opts.length = Number(opts.length) || 10;
 
@@ -30,7 +30,7 @@
 
             if (tag.value >= tag.max) {
                 tag.stopTimer();
-                opts.callback();
+                opts.ontimeout();
             }
         };
 
@@ -39,8 +39,8 @@
         };
 
 
-        opts.controller.on("start", tag.initTimer);
-        opts.controller.on("stop", tag.stopTimer);
+        opts.status.on("start", tag.initTimer);
+        opts.status.on("stop", tag.stopTimer);
     </script>
 
 </timer>

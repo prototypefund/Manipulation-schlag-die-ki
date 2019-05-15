@@ -5,7 +5,7 @@
     <instructions class="centered {hidden: instructions.hidden}"
                   text={instructions.text}
                   visibleFor="3"
-                  callback={this.startChallenge}></instructions>
+                  ontimeout={startChallenge}></instructions>
 
     <challenge class="centered {hidden: challenge.hidden}"
                image={opts.image}></challenge>
@@ -13,34 +13,35 @@
     <answers class="centered"
              answers={opts.answers}
              correct={opts.correct}
-             disabled={this.answers.disabled}
-             callback={this.answerSelected}></answers>
+             disabled={answers.disabled}
+             onselected={answerSelected}></answers>
 
     <timer class="centered {hidden2: timer.hidden}"
            length=3
-           callback={tag.timeout}
-           controller={timer.controller}></timer>
+           ontimeout={timeout}
+           status={timer.statusControl}></timer>
 
 
     <script>
         var tag = this;
 
         // state of the nested tags
-        tag.answers = {"disabled": false};
-        tag.challenge = {"hidden": true};
         tag.instructions = {"hidden": false, "text": TEXT.intro};
-        tag.timer = {"hidden": true, "controller": riot.observable()};
+        tag.challenge = {"hidden": true};
+        tag.answers = {"disabled": true};
+        tag.timer = {"hidden": true, "statusControl": riot.observable()};
 
         tag.startChallenge = function(){
             tag.challenge.hidden=false;
             tag.instructions.hidden=true;
+            tag.answers.disabled = false;
             tag.timer.hidden = false;
-            tag.timer.controller.trigger("start");
+            tag.timer.statusControl.trigger("start");
             tag.update();
         };
 
         tag.answerSelected = function(isCorrect){
-            tag.timer.controller.trigger("stop");
+            tag.timer.statusControl.trigger("stop");
             tag.answers.disabled = true;
             tag.update()
         };
