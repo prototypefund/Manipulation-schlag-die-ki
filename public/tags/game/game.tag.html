@@ -1,6 +1,6 @@
 <game>
 
-    <h1 class="centered"> Runde 1 </h1>
+    <h1 class="centered"> Runde 1</h1>
 
     <instructions class="centered {hidden: instructions.hidden}"
                   text={instructions.text}
@@ -16,10 +16,38 @@
              disabled={answers.disabled}
              onselected={answerSelected}></answers>
 
-    <timer class="centered {hidden2: timer.hidden}"
+    <!--timer class="centered {hidden2: timer.hidden}"
            length=3
            ontimeout={timeout}
-           status={timer.statusControl}></timer>
+           status={timer.statusControl}></timer-->
+
+    <div class="two-column">
+        <div class="left-column">
+            <div class="status">
+               <h5>DU</h5>
+               <h2>0</h2> Punkte
+            </div>
+            <div class="progress-left">
+                <div class="loader {hidden: human.loader.hidden}"></div>
+                <div class="result {hidden: human.result.hidden} {correct: human.result.correct}">
+                    <raw content={human.result.value}></raw>
+                </div>
+            </div>
+        </div>
+        <div class="right-column">
+            <div class="progress-right">
+                <div class="loader {hidden: machine.loader.hidden}"></div>
+                <div class="result {hidden: machine.result.hidden} {correct: machine.result.correct}">
+                    <raw content="{machine.result.value}"></raw>
+                </div>
+            </div>
+            <div class="status">
+                <h5>KI</h5>
+                <h2>0</h2> Punkte
+            </div>
+        </div>
+    </div>
+
 
 
     <script>
@@ -31,18 +59,47 @@
         tag.answers = {"disabled": true};
         tag.timer = {"hidden": true, "statusControl": riot.observable()};
 
+        tag.human = {"loader": {"hidden": true},
+                     "result": {"hidden": true, "value": null, "correct": false}};
+        tag.machine = {"loader": {"hidden": true},
+                       "result": {"hidden": true, "value": null, "correct": false}};
+
         tag.startChallenge = function(){
             tag.challenge.hidden=false;
             tag.instructions.hidden=true;
             tag.answers.disabled = false;
-            tag.timer.hidden = false;
-            tag.timer.statusControl.trigger("start");
+            /*tag.timer.hidden = false;
+            tag.timer.statusControl.trigger("start");*/
+            tag.human.loader.hidden = false;
+            tag.machine.loader.hidden = false;
             tag.update();
+
+            setTimeout(tag.machineFinished, 300);
         };
 
         tag.answerSelected = function(isCorrect){
-            tag.timer.statusControl.trigger("stop");
+            //tag.timer.statusControl.trigger("stop");
+            tag.human.loader.hidden = true;
+            tag.human.result.hidden = false;
+            if (isCorrect) {
+                tag.human.result.value = "&check;";
+                tag.human.result.correct = true;
+            }
+            else {
+                tag.human.result.value = "&#10007;";
+                tag.human.result.correct = false;
+            }
+
             tag.answers.disabled = true;
+            tag.update();
+            console.log(tag.human.result.value);
+        };
+
+        tag.machineFinished = function() {
+            tag.machine.result.value = "&check;";
+            tag.machine.result.correct = true;
+            tag.machine.loader.hidden = true;
+            tag.machine.result.hidden = false;
             tag.update()
         };
 
@@ -59,3 +116,11 @@
     <img src={opts.image} class="challenge" alt="challenge image"/>
 </challenge>
 
+
+<raw>
+    <span></span>
+
+    <script>
+        this.on("update", () => this.root.innerHTML = opts.content);
+    </script>
+</raw>

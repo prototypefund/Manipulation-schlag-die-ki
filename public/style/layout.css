@@ -35,11 +35,13 @@ hr {width: 100%}
 
 progress {
     margin-top: 2em;
+    margin-bottom: 2em;
     width: 60%;
 }
 
 .answers {
     margin-top: 2em;
+    margin-bottom: 2em;
 }
 
 .instructions {
@@ -50,4 +52,76 @@ progress {
     border-style: dashed;
     border-width: thin;
     border-color: #E1E1E1;
+}
+
+.two-column {
+    display: flex;
+    flex-direction: row;
+
+}
+
+.left-column, .right-column {
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+}
+
+
+.left-column {
+    border: 1px solid #E1E1E1;
+    border-right: 0px;
+    justify-content: flex-end;
+
+}
+
+.right-column {
+    border: 1px solid #E1E1E1;
+}
+
+.status {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.progress-left, .progress-right {
+    display: flex;
+    align-items: center;
+    font-size: 4em;
+    color: red;
+}
+
+.progress-left {
+    margin-left: 1em;
+}
+
+.progress-right {
+    margin-right: 1em;
+}
+
+
+h2, h5 {
+    margin-top: 0em;
+    margin-bottom: 0em;
+}
+
+
+
+.loader {
+    border: 1px solid #f3f3f3; /* Light grey */
+    border-top: 1px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 0.6em;
+    height: 0.6em;
+    animation: spin 2s linear infinite;
+    margin: 0.2em;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.correct {
+    color: green;
 }
