@@ -1,5 +1,5 @@
 <answers>
-    <div class="answers" each={answer in this.answers}>
+    <div each={answer in this.answers}>
         <button onclick={this.checkAnswer} class={answer.state} disabled={opts.disabled}>{answer.name}</button>
     </div>
 

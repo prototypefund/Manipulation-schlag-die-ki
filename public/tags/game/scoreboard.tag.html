@@ -1,0 +1,29 @@
+<scoreboard>
+    <div class="player">{opts.name}</div>
+    <div class="score">
+        <h4 class="value">{opts.score}</h4>
+        <div class="name">Punkte</div>
+    </div>
+
+    <div class="status">
+        <div class="loader {hidden: hideLoader(opts.status)}"></div>
+        <div class="result {hidden: hideResult(opts.status)} result-{opts.result}">
+            <span ref="raw"></span>
+        </div>
+    </div>
+
+    <script>
+        let tag = this;
+
+        tag.symbols = {"correct": "&check;", "incorrect": "&#10007;"};
+        tag.hideLoader = status => status !== "waiting";
+        tag.hideResult = status => status !== "finished";
+
+        this.on("update", () => this.refs.raw.innerHTML = tag.symbols[opts.result]);
+    </script>
+
+    <style>
+
+
+    </style>
+</scoreboard>

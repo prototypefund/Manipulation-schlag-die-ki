@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
     <link rel="stylesheet" href="style/layout.css">
+    <link rel="stylesheet" href="style/style.css">
 </head>
 
 <body>
@@ -23,6 +24,7 @@
     <script src="tags/game/timer.tag.html" type="riot/tag"></script>
     <script src="tags/game/answers.tag.html" type="riot/tag"></script>
     <script src="tags/game/instructions.tag.html" type="riot/tag"></script>
+    <script src="tags/game/scoreboard.tag.html" type="riot/tag"></script>
     <script src="tags/footer.tag.html" type="riot/tag"></script>
 
     <script src="data.js"></script>
@@ -31,17 +33,10 @@
     <script src="https://cdn.jsdelivr.net/gh/riot/riot/riot%2Bcompiler.min.js"></script>
 
     <script>
-        // use one global observable to communicate between tags
-        var SharedObservableMixin = {
-            observable: riot.observable()
-        };
-        // enable this observable for all tags
-        riot.mixin(SharedObservableMixin);
-
         // mount the app
-        riot.mount('header', DATA[0]);
+        riot.mount('header');
         riot.mount('game', DATA[0]);
-        riot.mount('footer', DATA[0]);
+        riot.mount('footer');
     </script>
 
 </body>

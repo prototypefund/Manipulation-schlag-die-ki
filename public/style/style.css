@@ -1,0 +1,55 @@
+.hidden {display: none;}
+
+/*******************************************************************
+* overwriting skeleton.css margins
+********************************************************************/
+
+h1, h2, h3, h4, h5, h6 {margin: 0em}
+hr {margin: 0em}
+
+/*******************************************************************
+* titles etc
+********************************************************************/
+
+header {font-size: 3rem}
+
+/*******************************************************************
+* loader animation
+********************************************************************/
+
+.loader {
+    border: 1px solid #f3f3f3; /* Light grey */
+    border-top: 1px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    animation: spin 2s linear infinite;
+    margin: 0.2em;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/*******************************************************************
+* scoreboard
+********************************************************************/
+
+.result-correct {
+    color: green;
+    font-size: 5rem;
+}
+
+.result-incorrect {
+    color: red;
+    font-size: 5rem;
+}
+
+.human {
+    border: dashed 1px;
+}
+
+.machine {
+    border: dashed 1px;
+}

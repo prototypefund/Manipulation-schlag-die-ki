@@ -1,127 +1,143 @@
-/* this is just to center the main app container */
-body {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
 
-}
+/*******************************************************************
+* MAIN GRID
+********************************************************************/
 
-/* main container for the app */
 .app {
-    display: flex;
-    flex-direction: column;
-    width: 800px;
+    display: grid;
+    grid-gap: 3rem;
+    margin-top: 5rem;
+    grid-template-columns: auto auto auto auto auto;
+    justify-items: center;
+    grid-template-areas:
+            ". header header header header ."
+            ".    .    game   game     .   ."
+            ". footer footer footer footer .";
 }
 
-/* centered row, all items should use this class */
-.centered {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    flex-wrap: wrap;
+header {
+    grid-area: header;
+}
+
+footer {
+    grid-area: footer;
+}
+
+/*******************************************************************
+* GAME GRID
+********************************************************************/
+
+game {
+    grid-area: game;
+    display: grid;
+    grid-gap: 3rem;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+    grid-template-areas:
+            "round round"
+            "main main"
+            "answers answers"
+            "human machine"
+}
+
+.round {
+    grid-area: round;
+}
+
+.main {
+    grid-area: main;
+    height: 300px;
+    width: 400px;
+}
+
+answers {
+    grid-area: answers;
+    display: grid;
+    grid-auto-flow: column;  /* todo not properly responsive yet, should switch to row in smaller screen sizes */
+
+}
+
+.main img {
+    width: 100%;
+    height: 100%;
+}
+
+.machine scoreboard {
+    grid-area: machine;
+    justify-self: center;
 }
 
 
-.instructions, .challenge {
-    display: flex;
-    height: 20em;
-    max-width: 80%;
-}
+/*******************************************************************
+* INSTRUCTIONS GRID
+********************************************************************/
 
-hr {width: 100%}
-
-.hidden {display: none;}
-.hidden2 {visibility: hidden}
-
-progress {
-    margin-top: 2em;
-    margin-bottom: 2em;
-    width: 60%;
-}
-
-.answers {
-    margin-top: 2em;
-    margin-bottom: 2em;
-}
-
-.instructions {
-    display: flex;
-    flex-direction: column;
+instructions {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-auto-flow: row;
+    border: dashed 1px black;
+    justify-items: center;
     align-items: center;
-    justify-content: space-around;
-    border-style: dashed;
-    border-width: thin;
-    border-color: #E1E1E1;
 }
 
-.two-column {
-    display: flex;
-    flex-direction: row;
+/********************************************************************
+* SCOREBOARD GRIDS
+*********************************************************************/
 
+scoreboard {
+    height: 8rem;
 }
 
-.left-column, .right-column {
-    display: flex;
-    flex-direction: row;
-    width: 50%;
+.human scoreboard {
+    grid-area: human;
+    display: grid;
+    grid-template-columns: auto 5rem;
+    grid-template-areas:
+            "player-human  status-human"
+            "score-human   status-human";
+    justify-content: right;
+    align-content: center;
 }
 
-
-.left-column {
-    border: 1px solid #E1E1E1;
-    border-right: 0px;
-    justify-content: flex-end;
-
+.machine scoreboard {
+    grid-area: machine;
+    display: grid;
+    grid-template-columns: 5rem auto;
+    grid-template-areas:
+            "status-machine player-machine"
+            "status-machine score-machine";
+    justify-content: left;
+    align-content: center;
 }
 
-.right-column {
-    border: 1px solid #E1E1E1;
+.human .status, .machine .status {
+    align-self: center;
 }
 
-.status {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+/* below is just for placement in the grid, don't make any stylings here */
+
+.human .player {
+    grid-area: player-human;
 }
 
-.progress-left, .progress-right {
-    display: flex;
-    align-items: center;
-    font-size: 4em;
-    color: red;
+.human .score {
+    grid-area: score-human;
 }
 
-.progress-left {
-    margin-left: 1em;
+.human .status {
+    grid-area: status-human;
 }
 
-.progress-right {
-    margin-right: 1em;
+.machine .player {
+    grid-area: player-machine;
 }
 
-
-h2, h5 {
-    margin-top: 0em;
-    margin-bottom: 0em;
+.machine .score {
+    grid-area: score-machine;
 }
 
-
-
-.loader {
-    border: 1px solid #f3f3f3; /* Light grey */
-    border-top: 1px solid #3498db; /* Blue */
-    border-radius: 50%;
-    width: 0.6em;
-    height: 0.6em;
-    animation: spin 2s linear infinite;
-    margin: 0.2em;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-.correct {
-    color: green;
+.machine .status {
+    grid-area: status-machine;
 }

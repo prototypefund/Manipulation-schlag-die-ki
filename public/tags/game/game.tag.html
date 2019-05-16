@@ -1,111 +1,63 @@
 <game>
+    <h2 class="round">Runde 1</h2>
+    <div class="main">
+        <instructions class={hidden: instructions.hidden}
+                      text={instructions.text}
+                      visibleFor="3"
+                      ontimeout={startChallenge}></instructions>
+        <challenge class={hidden: challenge.hidden} image={opts.image}></challenge>
+    </div>
 
-    <h1 class="centered"> Runde 1</h1>
-
-    <instructions class="centered {hidden: instructions.hidden}"
-                  text={instructions.text}
-                  visibleFor="3"
-                  ontimeout={startChallenge}></instructions>
-
-    <challenge class="centered {hidden: challenge.hidden}"
-               image={opts.image}></challenge>
-
-    <answers class="centered"
-             answers={opts.answers}
+    <answers answers={opts.answers}
              correct={opts.correct}
              disabled={answers.disabled}
              onselected={answerSelected}></answers>
 
-    <!--timer class="centered {hidden2: timer.hidden}"
-           length=3
-           ontimeout={timeout}
-           status={timer.statusControl}></timer-->
-
-    <div class="two-column">
-        <div class="left-column">
-            <div class="status">
-               <h5>DU</h5>
-               <h2>0</h2> Punkte
-            </div>
-            <div class="progress-left">
-                <div class="loader {hidden: human.loader.hidden}"></div>
-                <div class="result {hidden: human.result.hidden} {correct: human.result.correct}">
-                    <raw content={human.result.value}></raw>
-                </div>
-            </div>
-        </div>
-        <div class="right-column">
-            <div class="progress-right">
-                <div class="loader {hidden: machine.loader.hidden}"></div>
-                <div class="result {hidden: machine.result.hidden} {correct: machine.result.correct}">
-                    <raw content="{machine.result.value}"></raw>
-                </div>
-            </div>
-            <div class="status">
-                <h5>KI</h5>
-                <h2>0</h2> Punkte
-            </div>
-        </div>
+    <div class="human">
+        <scoreboard name="DU" score={this.human.score} status={this.human.status} result={this.human.result}></scoreboard>
     </div>
 
-
+    <div class="machine">
+        <scoreboard name="KI" score={this.machine.score} status={this.machine.status} result={this.machine.result}></scoreboard>
+    </div>
 
     <script>
         var tag = this;
+        let resultNames = {true: "correct", false: "incorrect"};
 
         // state of the nested tags
         tag.instructions = {"hidden": false, "text": TEXT.intro};
         tag.challenge = {"hidden": true};
         tag.answers = {"disabled": true};
-        tag.timer = {"hidden": true, "statusControl": riot.observable()};
 
-        tag.human = {"loader": {"hidden": true},
-                     "result": {"hidden": true, "value": null, "correct": false}};
-        tag.machine = {"loader": {"hidden": true},
-                       "result": {"hidden": true, "value": null, "correct": false}};
+        tag.human = {"status": null, "score": 0, "result": null};
+        tag.machine = {"status": null, "score": 0, "result": null};
 
         tag.startChallenge = function(){
             tag.challenge.hidden=false;
             tag.instructions.hidden=true;
             tag.answers.disabled = false;
-            /*tag.timer.hidden = false;
-            tag.timer.statusControl.trigger("start");*/
-            tag.human.loader.hidden = false;
-            tag.machine.loader.hidden = false;
+
+            tag.human.status = "waiting";
+            tag.machine.status = "waiting";
+
             tag.update();
 
+            // fake the AI
             setTimeout(tag.machineFinished, 300);
         };
 
         tag.answerSelected = function(isCorrect){
-            //tag.timer.statusControl.trigger("stop");
-            tag.human.loader.hidden = true;
-            tag.human.result.hidden = false;
-            if (isCorrect) {
-                tag.human.result.value = "&check;";
-                tag.human.result.correct = true;
-            }
-            else {
-                tag.human.result.value = "&#10007;";
-                tag.human.result.correct = false;
-            }
-
+            tag.human.status = "finished";
+            tag.human.result = resultNames[isCorrect];
             tag.answers.disabled = true;
             tag.update();
-            console.log(tag.human.result.value);
         };
 
         tag.machineFinished = function() {
-            tag.machine.result.value = "&check;";
-            tag.machine.result.correct = true;
-            tag.machine.loader.hidden = true;
-            tag.machine.result.hidden = false;
+            tag.machine.status = "finished";
+            tag.machine.result = "correct";
             tag.update()
-        };
-
-        tag.timeout = function() {
-            tag.answers.disabled = true;
-            tag.update();
         };
     </script>
 </game>
@@ -117,10 +69,4 @@
 </challenge>
 
 
-<raw>
-    <span></span>
 
-    <script>
-        this.on("update", () => this.root.innerHTML = opts.content);
-    </script>
-</raw>
