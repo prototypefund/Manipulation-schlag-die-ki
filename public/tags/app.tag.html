@@ -1,0 +1,59 @@
+<app>
+    <header></header>
+    <h2 id="round">Runde 1</h2>
+    <div id="main"></div>
+    <div id="answers"></div>
+    <scoreboard id="human" name="DU" score={this.human.score} status={this.human.status} result={this.human.result}></scoreboard>
+    <scoreboard id="machine" name="KI" score={this.machine.score} status={this.machine.status} result={this.machine.result}></scoreboard>
+    <footer></footer>
+
+
+    <script>
+        let game = this;
+        let mounted = {};
+
+        game.human = {"status": STATUS.NOT_STARTED, "score": 0, "result": null};
+        game.machine = {"status": STATUS.NOT_STARTED, "score": 0, "result": null};
+
+        game.startChallenge = function() {
+            mounted.instructions.unmount(true);
+            mounted.challenge = mountToId("main", "challenge", {"image": opts.image});
+
+            mounted.answers.opts.disabled = false;
+            mounted.answers.update();
+
+            game.human.status = "waiting";
+            game.machine.status = "waiting";
+            game.update();
+
+            // fake the AI
+            setTimeout(game.machineFinished, 300);
+        };
+
+        game.humanFinished = function(result){
+            mounted.answers.opts.disabled = true;
+            game.human.status = STATUS.FINISHED;
+            game.human.result = result;
+            game.update();
+        };
+
+
+        game.machineFinished = function(){
+            game.machine.status = STATUS.FINISHED;
+            game.machine.result = RESULT.CORRECT;
+            game.update();
+        };
+
+
+        game.init = function() {
+            mounted.instructions = mountToId("main", "instructions", {"text": TEXT.intro, "ontimeout": game.startChallenge});
+
+            let answerConfig = {"answers": opts.answers, "correct": opts.correct,
+                                "disabled": true, "onselected": game.humanFinished};
+            mounted.answers = mountToId("answers", "answers", answerConfig);
+        };
+
+        this.on("mount", game.init);
+    </script>
+
+</app>

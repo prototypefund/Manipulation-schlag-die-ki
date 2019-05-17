@@ -15,11 +15,16 @@
     <script>
         let tag = this;
 
-        tag.symbols = {"correct": "&check;", "incorrect": "&#10007;"};
+        const CHECKMARK = "&check;";
+        const CROSS = "&#10007;";
+
         tag.hideLoader = status => status !== "waiting";
         tag.hideResult = status => status !== "finished";
 
-        this.on("update", () => this.refs.raw.innerHTML = tag.symbols[opts.result]);
+        tag.symbol = result => result == RESULT.CORRECT ? CHECKMARK : CROSS;
+        tag.class = result => result == RESULT.CORRECT ? "result-correct": "result-incorrect";
+
+        this.on("update", () => this.refs.raw.innerHTML = tag.symbol(opts.result));
     </script>
 
     <style>

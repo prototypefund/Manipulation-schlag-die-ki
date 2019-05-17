@@ -4,7 +4,7 @@
     </div>
 
     <script>
-        /* parameters given to this tag
+        /* parameters given to this game
         opts.answer: List of answers (strings)
         opts.correct: Index of correct answer in opts.answers
         opts.disabled: Whether input is disabled (true/false)
@@ -21,11 +21,11 @@
             const selected = e.item.answer.index;
             if (selected == opts.correct) {
                 this.answers[selected].state = "correct";
-                opts.onselected(true);
+                opts.onselected(RESULT.CORRECT);
             }
             else {
                 this.answers[selected].state = "incorrect";
-                opts.onselected(false);
+                opts.onselected(RESULT.INCORRECT);
             }};
 
     </script>

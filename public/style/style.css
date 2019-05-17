@@ -38,7 +38,7 @@ header {font-size: 3rem}
 
 .result-correct {
     color: green;
-    font-size: 5rem;
+    font-size: 5.5rem;
 }
 
 .result-incorrect {
@@ -46,10 +46,10 @@ header {font-size: 3rem}
     font-size: 5rem;
 }
 
-.human {
+#human {
     border: dashed 1px;
 }
 
-.machine {
+#machine {
     border: dashed 1px;
 }

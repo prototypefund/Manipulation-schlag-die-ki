@@ -1,3 +1,4 @@
+
 <!doctype html>
 
 <html>
@@ -13,30 +14,25 @@
 
 <body>
 
-    <div class="app">
-        <header></header>
-        <game></game>
-        <footer></footer>
-    </div>
+    <app></app>
 
+    <script src="tags/app.tag.html" type="riot/tag"></script>
     <script src="tags/header.tag.html" type="riot/tag"></script>
-    <script src="tags/game/game.tag.html" type="riot/tag"></script>
-    <script src="tags/game/timer.tag.html" type="riot/tag"></script>
+    <script src="tags/footer.tag.html" type="riot/tag"></script>
+
+    <script src="tags/game/challenge.tag.html" type="riot/tag"></script>
     <script src="tags/game/answers.tag.html" type="riot/tag"></script>
     <script src="tags/game/instructions.tag.html" type="riot/tag"></script>
     <script src="tags/game/scoreboard.tag.html" type="riot/tag"></script>
-    <script src="tags/footer.tag.html" type="riot/tag"></script>
 
     <script src="data.js"></script>
     <script src="text.js"></script>
+    <script src="util.js"></script>
 
     <script src="https://cdn.jsdelivr.net/gh/riot/riot/riot%2Bcompiler.min.js"></script>
 
     <script>
-        // mount the app
-        riot.mount('header');
-        riot.mount('game', DATA[0]);
-        riot.mount('footer');
+        riot.mount('app', DATA[0]);
     </script>
 
 </body>
