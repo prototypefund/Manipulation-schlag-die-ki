@@ -1,10 +1,11 @@
 <app>
     <header></header>
-    <h2 id="round">Runde 1</h2>
+    <div id="intro"></div>
+    <div id="round"></div>
     <div id="main"></div>
     <div id="answers"></div>
-    <scoreboard id="human" name="DU" score={this.human.score} status={this.human.status} result={this.human.result}></scoreboard>
-    <scoreboard id="machine" name="KI" score={this.machine.score} status={this.machine.status} result={this.machine.result}></scoreboard>
+    <!--scoreboard id="human" name="DU" score={this.human.score} status={this.human.status} result={this.human.result}></scoreboard>
+    <scoreboard id="machine" name="KI" score={this.machine.score} status={this.machine.status} result={this.machine.result}></scoreboard-->
     <footer></footer>
 
 
@@ -44,16 +45,37 @@
             game.update();
         };
 
-
-        game.init = function() {
-            mounted.instructions = mountToId("main", "instructions", {"text": TEXT.intro, "ontimeout": game.startChallenge});
+        game.startCountdown = function() {
+            mounted.instructions.unmount(true);
 
             let answerConfig = {"answers": opts.answers, "correct": opts.correct,
-                                "disabled": true, "onselected": game.humanFinished};
+                "disabled": true, "onselected": game.humanFinished};
             mounted.answers = mountToId("answers", "answers", answerConfig);
+
+            mounted.countdown = mountToId("main", "countdown", {"length": 3, "ontimeout": game.startChallenge})
         };
 
-        this.on("mount", game.init);
+        game.setup = function() {
+            mounted.intro.unmount(false);
+
+            mounted.round = mountToId("round", "round", {"round": 1});
+            mounted.instructions = mountToId("main", "instructions", {"ontimeout": game.startChallenge});
+
+            /*let answerConfig = {"answers": opts.answers, "correct": opts.correct,
+                                "disabled": true, "onselected": game.humanFinished};
+            mounted.answers = mountToId("answers", "answers", answerConfig);*/
+        };
+
+
+        game.intro = function() {
+            mounted.intro = mountToId("intro", "intro", {"onclick": game.setup});
+        };
+
+        this.on("mount", game.intro);
     </script>
 
 </app>
+
+<round>
+    <h2>Runde {opts.round}</h2>
+</round>

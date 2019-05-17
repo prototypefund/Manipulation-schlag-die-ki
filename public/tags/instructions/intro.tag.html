@@ -1,0 +1,66 @@
+<intro>
+    <div>
+        <h1 hidden={this.hidden[0]} class="size{this.currentFontSize}">3 Runden </h1>
+        <h1 hidden={this.hidden[1]} class="size{this.currentFontSize}">Wer ist schneller? </h1>
+        <h1 hidden={this.hidden[2]} class="size{this.currentFontSize}">Wer ist schlauer? </h1>
+        <h1 hidden={this.hidden[3]} class="size{this.currentFontSize}"><strong>DU</strong> oder die <strong>KI</strong>  <strong>?</strong></h1>
+        <button hidden={this.hidden[4]} class="size{this.currentFontSize} button-primary" onclick={opts.onclick}>LET'S GO!</button>
+    </div>
+
+    <style>
+        div {
+            height: 100%;
+            width: 100%;
+            display: grid;
+            grid-auto-flow: row;
+            justify-items: center;
+            align-items: center;
+        }
+
+        .size1 {font-size: 1rem}
+        .size2 {font-size: 1.5rem}
+        .size3 {font-size: 2rem}
+        .size4 {font-size: 2.5rem}
+        .size5 {font-size: 3rem}
+        .size6 {font-size: 3.5rem}
+        .size7 {font-size: 4rem}
+        .size8 {font-size: 4.5rem}
+        .size9 {font-size: 5rem}
+        .size10 {font-size: 5.5rem}
+        .size11 {font-size: 6rem}
+        .size12 {font-size: 6.5rem}
+        .size13 {font-size: 7rem}
+        .size14 {font-size: 7.5rem}
+        .size15 {font-size: 8rem}
+
+        button {width: auto; height: auto; background-color: #222; border-width: 0px}
+
+    </style>
+
+    <script>
+        let tag = this;
+        tag.hidden = [true, true, true, true, true];
+        tag.currentlyShown = -1;
+        tag.currentFontSize = 1;
+
+        tag.showNext = function() {
+            tag.hidden = [true, true, true, true, true];
+            tag.currentlyShown += 1;
+            tag.hidden[tag.currentlyShown] = false;
+
+            tag.currentFontSize = 1;
+            Timer(30, 14, tag.increaseFontSize, null).start();
+
+            tag.update();
+        };
+
+        tag.increaseFontSize = function(){
+            tag.currentFontSize += 1;
+            tag.update();
+        };
+
+        tag.showNext();
+        Timer(1500, 4, tag.showNext, null).start();
+
+    </script>
+</intro>

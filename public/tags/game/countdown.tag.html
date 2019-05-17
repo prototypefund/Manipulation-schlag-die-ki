@@ -1,17 +1,15 @@
-<instructions>
-        <p>{opts.text}</p>
+<countdown>
 
-        <p>In <strong> {this.value} </strong> Sekunden geht's los!</p>
+    <h1>{this.value}</h1>
 
     <script>
 
-        /* game parameters
-        opts.text: Instruction text to display
-        opts.visibleFor: How long the instructions should be visible [seconds]
+        /* tag parameters
+        opts.lengths: Length of the countdown
         opts.ontimeout: Function to call when instruction have been visible for the specified amount */
 
         tag = this;
-        tag.value =  Number(opts.visibleFor) || 3;
+        tag.value =  Number(opts.length) || 3;
         tag.timer = null;
 
         tag.initTimer = function() {
@@ -35,4 +33,4 @@
 
         tag.on("mount", tag.initTimer);
     </script>
-</instructions>
+</countdown>

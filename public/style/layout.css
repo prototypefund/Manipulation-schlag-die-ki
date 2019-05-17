@@ -7,7 +7,8 @@ app {
     display: grid;
     grid-gap: 3rem;
     margin-top: 5rem;
-    grid-template-columns: auto auto auto auto auto;
+    grid-template-columns: auto auto 200px 200px auto auto;
+    grid-template-rows: auto auto 300px auto auto auto;
     justify-items: center;
     grid-template-areas:
             ". header header header header . "
@@ -32,8 +33,7 @@ footer {
 
 #main {
     grid-area: main;
-    height: 300px;
-    width: 400px;
+    justify-self: stretch; /* makes sure whole width is used */
 }
 
 #answers {
@@ -42,8 +42,7 @@ footer {
     grid-auto-flow: column;  /* todo not properly responsive yet, should switch to row in smaller screen sizes */
 
 }
-
-#main img {
+img {
     width: 100%;
     height: 100%;
 }
@@ -58,21 +57,15 @@ footer {
     justify-self: left;
 }
 
+#intro {
+    grid-column: 2 / -2;
+    grid-row: 2 / -2;
+}
 
 
 /*******************************************************************
 * INSTRUCTIONS GRID
 ********************************************************************/
-
-instructions {
-    width: 100%;
-    height: 100%;
-    display: grid;
-    grid-auto-flow: row;
-    border: dashed 1px black;
-    justify-items: center;
-    align-items: center;
-}
 
 /********************************************************************
 * SCOREBOARD GRIDS
@@ -112,7 +105,7 @@ scoreboard {
     grid-area: player-human;
 }
 
-#human .score {
+#human .score{
     grid-area: score-human;
 }
 
