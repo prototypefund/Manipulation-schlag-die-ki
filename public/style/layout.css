@@ -40,8 +40,9 @@ footer {
     grid-area: answers;
     display: grid;
     grid-auto-flow: column;  /* todo not properly responsive yet, should switch to row in smaller screen sizes */
-
+    grid-gap: 2em;
 }
+
 img {
     width: 100%;
     height: 100%;
@@ -67,6 +68,19 @@ img {
 * INSTRUCTIONS GRID
 ********************************************************************/
 
+.instructions {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-auto-flow: row;
+    border: dashed 1px #bbb;
+    color: #555;
+    justify-items: center;
+    align-items: center;
+    text-align: center;
+}
+
+
 /********************************************************************
 * SCOREBOARD GRIDS
 *********************************************************************/
@@ -75,7 +89,7 @@ scoreboard {
     height: 8rem;
 }
 
-#human {
+#human scoreboard {
     display: grid;
     grid-template-columns: auto 5rem;
     grid-template-areas:
@@ -95,32 +109,32 @@ scoreboard {
     align-content: center;
 }
 
-#human .status, #machine .status {
+#scoreboard-human .status, #machine .status {
     align-self: center;
 }
 
 /* below is just for placement in the grid, don't make any stylings here */
 
-#human .player {
+/*#scoreboard-human .player {
     grid-area: player-human;
 }
 
-#human .score{
+#scoreboard-human .score{
     grid-area: score-human;
 }
 
-#human .status {
+#scoreboard-human .status {
     grid-area: status-human;
 }
 
-#machine .player {
+#scoreboard-machine .player {
     grid-area: player-machine;
 }
 
-#machine .score {
+#scoreboard-machine .score {
     grid-area: score-machine;
 }
 
-#machine .status {
+#scoreboard-machine.status {
     grid-area: status-machine;
-}
+}*/

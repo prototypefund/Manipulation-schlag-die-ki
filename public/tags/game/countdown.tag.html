@@ -1,6 +1,9 @@
 <countdown>
 
-    <h1>{this.value}</h1>
+    <div class="instructions">
+        <h1>Runde 1 startet in </h1>
+        <div class="countdown-value">{this.value}</div>
+    </div>
 
     <script>
 
@@ -10,27 +13,23 @@
 
         tag = this;
         tag.value =  Number(opts.length) || 3;
-        tag.timer = null;
 
         tag.initTimer = function() {
-            tag.timer = setInterval(tag.updateValue, 1000);
+            Timer(1000, tag.value, tag.updateValue, opts.ontimeout).start()
         };
 
         tag.updateValue = function(){
-            if (tag.value > 1){
-                tag.value -=1;
-                tag.update();
-            }
-            else {
-                tag.stopTimer();
-                opts.ontimeout();
-            }
+            tag.value -=1;
+            tag.update();
         };
 
-        tag.stopTimer = function() {
-            clearInterval(tag.timer);
-        };
-
-        tag.on("mount", tag.initTimer);
+        tag.on("mount",  tag.initTimer);
     </script>
+
+    <style>
+        .countdown-value {font-size: 8em;
+                          font-family: Helvetica, Arial, SansSerif;
+                          color: #222;
+         }
+    </style>
 </countdown>

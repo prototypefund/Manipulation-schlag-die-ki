@@ -12,12 +12,20 @@ hr {margin: 0em}
 * titles etc
 ********************************************************************/
 
-header {font-size: 3rem}
+header {font-size: 3.5rem;}
 
 /*******************************************************************
 * main game
 ********************************************************************/
 
+button.button-primary {
+    background-color: #222;
+    border-width: 0;
+}
+
+button.button-primary:hover {
+    background-color: darkorange;
+}
 
 /*******************************************************************
 * loader animation
@@ -52,10 +60,10 @@ header {font-size: 3rem}
     font-size: 5rem;
 }
 
-#human {
+/*#human {
     border: dashed 1px;
 }
 
 #machine {
     border: dashed 1px;
-}
+}*/

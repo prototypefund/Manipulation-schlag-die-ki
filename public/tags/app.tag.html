@@ -1,11 +1,11 @@
 <app>
     <header></header>
     <div id="intro"></div>
-    <div id="round"></div>
+    <!--div id="round"></div-->
     <div id="main"></div>
     <div id="answers"></div>
-    <!--scoreboard id="human" name="DU" score={this.human.score} status={this.human.status} result={this.human.result}></scoreboard>
-    <scoreboard id="machine" name="KI" score={this.machine.score} status={this.machine.status} result={this.machine.result}></scoreboard-->
+    <div id="human"></div>
+    <!--scoreboard id="machine" name="KI" score={this.machine.score} status={this.machine.status} result={this.machine.result}></scoreboard-->
     <footer></footer>
 
 
@@ -16,8 +16,23 @@
         game.human = {"status": STATUS.NOT_STARTED, "score": 0, "result": null};
         game.machine = {"status": STATUS.NOT_STARTED, "score": 0, "result": null};
 
-        game.startChallenge = function() {
+        game.startCountdown = function() {
+            mounted.confirm.unmount(true);
             mounted.instructions.unmount(true);
+
+            //mounted.round_placeholder.unmount(true);
+            //mounted.round = mountToId("round", "round", {"round": 1});
+
+            let answerConfig = {"answers": opts.answers, "correct": opts.correct,
+                                "disabled": true, "onselected": game.humanFinished};
+            mounted.answers = mountToId("answers", "answers", answerConfig);
+
+            mounted.countdown = mountToId("main", "countdown", {"length": 5, "ontimeout": game.startChallenge});
+
+            //mounted.human = mountToId("human", "scoreboard", {"id": "scoreboard-human", "name": "DU", "score": game.human.score, "status": game.human.status, "result": game.human.result});
+        };
+
+        game.startChallenge = function() {
             mounted.challenge = mountToId("main", "challenge", {"image": opts.image});
 
             mounted.answers.opts.disabled = false;
@@ -45,30 +60,18 @@
             game.update();
         };
 
-        game.startCountdown = function() {
-            mounted.instructions.unmount(true);
-
-            let answerConfig = {"answers": opts.answers, "correct": opts.correct,
-                "disabled": true, "onselected": game.humanFinished};
-            mounted.answers = mountToId("answers", "answers", answerConfig);
-
-            mounted.countdown = mountToId("main", "countdown", {"length": 3, "ontimeout": game.startChallenge})
-        };
-
         game.setup = function() {
-            mounted.intro.unmount(false);
+            if (mounted.intro)
+                mounted.intro.unmount(false);
 
-            mounted.round = mountToId("round", "round", {"round": 1});
-            mounted.instructions = mountToId("main", "instructions", {"ontimeout": game.startChallenge});
-
-            /*let answerConfig = {"answers": opts.answers, "correct": opts.correct,
-                                "disabled": true, "onselected": game.humanFinished};
-            mounted.answers = mountToId("answers", "answers", answerConfig);*/
+            //mounted.round_placeholder = mountToId("round", "round-placeholder", {"round": 1});
+            mounted.confirm = mountToId("answers", "confirm", {"onclick": game.startCountdown});
+            mounted.instructions = mountToId("main", "instructions_rules");
         };
 
 
         game.intro = function() {
-            mounted.intro = mountToId("intro", "intro", {"onclick": game.setup});
+            mounted.intro = mountToId("intro", "instructions_intro", {"onclick": game.setup});
         };
 
         this.on("mount", game.intro);
@@ -79,3 +82,12 @@
 <round>
     <h2>Runde {opts.round}</h2>
 </round>
+
+
+<round-placeholder>
+    <h2 class="hidden2">Runde 0</h2>
+</round-placeholder>
+
+<confirm>
+    <button onclick={opts.onclick} class="button-primary">Alles klar!</button>
+</confirm>

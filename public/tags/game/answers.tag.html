@@ -31,13 +31,13 @@
     </script>
 
     <style>
-        button {margin-left: 2em; margin-right: 2em;}
-
-        button:disabled {cursor: default;}
 
         .default:disabled,
         .default:disabled:focus,
-        .default:disabled:hover {border-color:#bbb; color: #555}
+        .default:disabled:hover {cursor: default;
+                                 border-style: dashed;
+                                 border-color: #bbb;
+                                 color: #555;}
 
         .correct,
         .correct:hover,
