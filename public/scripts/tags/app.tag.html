@@ -1,0 +1,76 @@
+<app>
+    <header></header>
+    <div id="intro"></div>
+    <div id="main"></div>
+    <div id="overlay"></div>
+    <div id="instructions"></div>
+    <div id="answers"></div>
+    <footer></footer>
+
+
+    <script>
+        let game = this;
+        let mounted = {};
+
+        game.human = {"name": "DU", "status": STATUS.NOT_STARTED, "score": 0, "result": null};
+        game.machine = {"name": "KI", "status": STATUS.NOT_STARTED, "score": 0, "result": null};
+
+        game.startCountdown = function() {
+            mounted.confirm.unmount(true);
+            mounted.instructions.unmount(true);
+
+            let answerConfig = {"answers": opts.answers, "correct": opts.correct,
+                                "disabled": true, "onselected": game.humanFinished};
+            mounted.answers = mountToId("answers", "answers", answerConfig);
+
+            mounted.countdown = mountToId("main", "countdown", {"length": 2, "ontimeout": game.startChallenge});
+        };
+
+        game.startChallenge = function() {
+            mounted.challenge = mountToId("main", "challenge", {"image": opts.image});
+
+            mounted.answers.opts.disabled = false;
+            mounted.answers.update();
+
+            // fake the AI
+            setTimeout(game.machineFinished, 300);
+        };
+
+        game.humanFinished = function(result){
+            game.endChallenge();
+        };
+
+
+        game.machineFinished = function(){
+            game.endChallenge();
+        };
+
+        game.endChallenge = function() {
+            mounted.answers.opts.disabled = true;
+            mounted.answers.update();
+            mounted.opaque = mountToId("overlay", "overlay");
+            mounted.instructions = mountToId("instructions", "instructions_round1_ai_wins");
+            //mounted.challenge.unmount();
+        };
+
+        game.setup = function() {
+            if (mounted.intro)
+                mounted.intro.unmount(false);
+
+            mounted.confirm = mountToId("answers", "confirm", {"onclick": game.startCountdown});
+            mounted.instructions = mountToId("instructions", "instructions_rules");
+        };
+
+
+        game.intro = function() {
+            mounted.intro = mountToId("intro", "intro", {"onclick": game.setup});
+        };
+
+        this.on("mount", game.setup);
+    </script>
+
+</app>
+
+<confirm>
+    <button onclick={opts.onclick} class="button-primary">Alles klar!</button>
+</confirm>

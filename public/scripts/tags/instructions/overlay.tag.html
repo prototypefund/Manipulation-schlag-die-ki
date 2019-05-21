@@ -1,0 +1,36 @@
+<overlay>
+    <div class="opaque opaque{this.currentOpacity}"></div>
+
+    <style>
+        .opaque {
+            width: 100%;
+            height: 100%;
+            background: white; /* fallback for older browsers */
+            background: rgba(255, 255, 255, 0.0);
+        }
+
+        .opaque15 {background: rgba(255, 255, 255, 0.15);}
+        .opaque25 {background: rgba(255, 255, 255, 0.25);}
+        .opaque35 {background: rgba(255, 255, 255, 0.35);}
+        .opaque45 {background: rgba(255, 255, 255, 0.45);}
+        .opaque55 {background: rgba(255, 255, 255, 0.55);}
+        .opaque65 {background: rgba(255, 255, 255, 0.65);}
+        .opaque75 {background: rgba(255, 255, 255, 0.75);}
+        .opaque85 {background: rgba(255, 255, 255, 0.85);}
+        .opaque95 {background: rgba(255, 255, 255, 0.95);}
+
+
+    </style>
+
+    <script>
+        let tag = this;
+        tag.currentOpacity = 15;
+
+        tag.increaseOpacity = function() {
+            tag.currentOpacity += 10;
+            tag.update();
+        };
+
+        Timer(20, 8, tag.increaseOpacity, null).start();
+    </script>
+</overlay>

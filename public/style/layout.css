@@ -5,18 +5,16 @@
 
 app {
     display: grid;
-    grid-gap: 3rem;
+    grid-gap: 6rem;
     margin-top: 5rem;
-    grid-template-columns: auto auto 200px 200px auto auto;
-    grid-template-rows: auto auto 300px auto auto auto;
+    grid-template-columns: auto auto 400px auto auto;
+    grid-template-rows: auto 300px auto auto;
     justify-items: center;
     grid-template-areas:
-            ". header header header header . "
-            ".    .    round  round   .    . "
-            ".    .     main  main    .    . "
-            ".    .   answers answers .    . "
-            ".    .    human  machine .    . "
-            ". footer footer footer footer . ";
+            ". header header header . "
+            ".    .     main   .    ."
+            ".    .   answers  .    . "
+            ". footer footer footer . ";
 }
 
 header {
@@ -25,10 +23,6 @@ header {
 
 footer {
     grid-area: footer;
-}
-
-#round {
-    grid-area: round;
 }
 
 #main {
@@ -48,19 +42,31 @@ img {
     height: 100%;
 }
 
-#human {
-    grid-area: human;
-    justify-self: right;
-}
-
-#machine {
-    grid-area: machine;
-    justify-self: left;
-}
 
 #intro {
     grid-column: 2 / -2;
     grid-row: 2 / -2;
+}
+
+#score {
+    grid-area: score;
+    display: grid;
+    grid-auto-flow: column;
+    align-items: end;
+    grid-gap: 2rem;
+}
+
+#instructions {
+    grid-area: main;
+    width: 100%;
+    height: 100%;
+}
+
+
+#overlay {
+    grid-area: main;
+    width: 100%;
+    height: 100%;
 }
 
 
@@ -73,68 +79,8 @@ img {
     height: 100%;
     display: grid;
     grid-auto-flow: row;
-    border: dashed 1px #bbb;
     color: #555;
     justify-items: center;
     align-items: center;
     text-align: center;
 }
-
-
-/********************************************************************
-* SCOREBOARD GRIDS
-*********************************************************************/
-
-scoreboard {
-    height: 8rem;
-}
-
-#human scoreboard {
-    display: grid;
-    grid-template-columns: auto 5rem;
-    grid-template-areas:
-            "player-human  status-human"
-            "score-human   status-human";
-    justify-content: right;
-    align-content: center;
-}
-
-#machine  {
-    display: grid;
-    grid-template-columns: 5rem auto;
-    grid-template-areas:
-            "status-machine player-machine"
-            "status-machine score-machine";
-    justify-content: left;
-    align-content: center;
-}
-
-#scoreboard-human .status, #machine .status {
-    align-self: center;
-}
-
-/* below is just for placement in the grid, don't make any stylings here */
-
-/*#scoreboard-human .player {
-    grid-area: player-human;
-}
-
-#scoreboard-human .score{
-    grid-area: score-human;
-}
-
-#scoreboard-human .status {
-    grid-area: status-human;
-}
-
-#scoreboard-machine .player {
-    grid-area: player-machine;
-}
-
-#scoreboard-machine .score {
-    grid-area: score-machine;
-}
-
-#scoreboard-machine.status {
-    grid-area: status-machine;
-}*/
