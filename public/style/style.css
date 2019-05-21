@@ -22,8 +22,12 @@ header h1 {font-size: 8rem;
         letter-spacing: .1rem;}
 
 /*******************************************************************
-* main game
+* main app
 ********************************************************************/
+
+button {
+    z-index: 999;
+}
 
 button.button-primary {
     background-color: #222;
