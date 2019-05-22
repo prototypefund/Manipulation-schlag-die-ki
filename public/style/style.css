@@ -84,6 +84,6 @@ button.button-primary:hover {
     text-align: center;
 }
 
-.dashed-border {
+countdown, .dashed-border {
     border: dashed 1px #bbb;
 }

@@ -13,7 +13,7 @@ app {
     grid-template-areas:
             ". header header header . "
             ".    .     main   .    ."
-            ".    .   answers  .    . "
+            ".    .     sub  .    . "
             ". footer footer footer . ";
 }
 
@@ -25,54 +25,44 @@ footer {
     grid-area: footer;
 }
 
-#main {
-    grid-area: main;
-    justify-self: stretch; /* makes sure whole width is used */
-}
-
-#answers {
-    grid-area: answers;
-    display: grid;
-    grid-auto-flow: column;  /* todo not properly responsive yet, should switch to row in smaller screen sizes */
-    grid-gap: 2em;
-}
-
-img {
-    width: 100%;
-    height: 100%;
-}
-
-
-#intro {
+intro {
     grid-column: 2 / -2;
     grid-row: 2 / -2;
 }
 
-#score {
-    grid-area: score;
-    display: grid;
-    grid-auto-flow: column;
-    align-items: end;
-    grid-gap: 2rem;
+challenge, countdown, overlay, instructions {
+    grid-area: main;
+    justify-self: stretch; /* makes sure whole width is used */
 }
 
-#instructions {
-    grid-area: main;
-    width: 100%;
-    height: 100%;
+answers, confirm {
+    grid-area: sub;
 }
 
-
-#overlay {
-    grid-area: main;
+img, instructions, overlay {
     width: 100%;
     height: 100%;
 }
 
 
 /*******************************************************************
-* INSTRUCTIONS GRID
+* SUB GRIDS
 ********************************************************************/
+
+answers {
+    display: grid;
+    grid-auto-flow: column;  /* todo not properly responsive yet, should switch to row in smaller screen sizes */
+    grid-gap: 2em;
+}
+
+countdown {
+    display: grid;
+    grid-auto-flow: row;
+    color: #555;
+    justify-items: center;
+    align-items: center;
+}
+
 
 .instructions {
     width: 100%;

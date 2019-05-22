@@ -1,4 +1,4 @@
-
+const RESULT = {"CORRECT": "correct", "INCORRECT": "incorrect"};
 
 function Timer(stepLength, totalSteps, onStep, onTimeout){
     let obj = {};
