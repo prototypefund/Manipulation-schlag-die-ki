@@ -13,6 +13,9 @@
     <confirm if={state.confirm.mounted} onclick={state.confirm.onclick}></confirm>
     <answers if={state.answers.mounted} disabled={state.answers.disabled} answers={state.answers.answers} correct={state.answers.correct} onselected={state.answers.onselected}></answers>
 
+    <!-- ai will be mounted but not be visible -->
+    <ai hide={true} disabled={state.ai.disabled} onselected={state.ai.onselected} image={state.ai.image} answers={state.answers.answers} correct={state.answers.correct}></ai>
+
     <footer></footer>
 
 
@@ -27,7 +30,8 @@
         app.state.overlay      = {"mounted": false};
         app.state.instructions = {"mounted": false, "text": null};
         app.state.confirm      = {"mounted": false, "onclick": null};
-        app.state.answers      = {"mounted": false, "disabled": true, "answers": null, "correct": null, onselected: null};
+        app.state.answers      = {"mounted": false, "disabled": true, "answers": null, "correct": null, "onselected": null};
+        app.state.ai           = {                  "disabled": true, "image": null, "answers": null, "correct": null, "onselected": null};
 
         // which tags are mounted for which screen
         const SCREENS = {"INTRO":     ["intro"],
@@ -67,13 +71,16 @@
             app.state.answers.answers = opts[roundIndex].answers;
             app.state.answers.correct = opts[roundIndex].correct;
             app.state.challenge.image = opts[roundIndex].image;
+            app.state.ai.answers = opts[roundIndex].answers;
+            app.state.ai.correct = opts[roundIndex].correct;
+            app.state.ai.image = opts[roundIndex].image;
             app.state.answers.disabled = true;
 
             // configure all on-click handlers for this round
             app.state.countdown.ontimeout = app.startChallenge;
             app.state.answers.onselected = app.humanFinished;
+            app.state.ai.onselected = app.machineFinished;
             app.state.confirm.onclick = () => app.startRound(roundIndex+1);
-            app.ai = AI(roundIndex, app.machineFinished);
 
             // initial screen for the round
             app.showScreen(SCREENS.COUNTDOWN);
@@ -81,13 +88,13 @@
 
         app.startChallenge = function() {
             app.state.answers.disabled = false;
+            app.state.ai.disabled = false;
             app.showScreen(SCREENS.CHALLENGE);
-            app.ai.start();
         };
 
         app.humanFinished = function(result){
             if (result == RESULT.CORRECT) {
-                app.ai.stop();
+                app.state.ai.disabled = true;
                 app.state.instructions.text = "ROUND1_HUMAN_WINS";
                 app.showScreen(SCREENS.RETRO);
             }
@@ -95,13 +102,16 @@
         };
 
 
-        app.machineFinished = function(){
-            app.state.instructions.text = "ROUND1_MACHINE_WINS";
-            app.showScreen(SCREENS.RETRO);
-            app.update();
+        app.machineFinished = function(result){
+            if (result == RESULT.CORRECT) {
+                app.state.ai.disabled = true;
+                app.state.instructions.text = "ROUND1_MACHINE_WINS";
+                app.showScreen(SCREENS.RETRO);
+            }
+            // todo incorrect
         };
 
-        app.on("mount", app.showIntro);
+        app.on("mount", app.showRules);
 
     </script>
 
