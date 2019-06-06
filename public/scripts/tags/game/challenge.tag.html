@@ -1,3 +1,39 @@
 <challenge>
-    <img src={opts.image}/>
+    <canvas id="canvas"></canvas>
+
+    <script>
+        let tag = this;
+
+        tag.displayNoise = function(opacity){
+            // set noise opacity
+            for (let i=3; i<tag.noise.length; i+=4)
+                tag.noise[i] = opacity;
+
+            // add noise to canvas
+            var pixels = tag.ctx.createImageData(tag.canvas.width, tag.canvas.height);
+            pixels.data.set(tag.noise);
+            tag.ctx.putImageData(pixels, 0, 0);
+        };
+
+
+        tag.displayChallenge = function() {
+            tag.displayNoise(opts.noise*255);
+            tag.ctx.globalCompositeOperation='destination-over'; // drawn behind the noise
+            tag.ctx.drawImage(ASSETS["images"][opts.image],0,0, canvas.width, canvas.height);
+        };
+
+        tag.prepareChallenge = function() {
+            tag.canvas = document.getElementById("canvas");
+            tag.ctx = tag.canvas.getContext("2d");
+
+            // make canvas same size as parent element
+            tag.canvas.width  = tag.canvas.offsetWidth;
+            tag.canvas.height = tag.canvas.offsetHeight;
+
+            tag.noise = generateNoise(tag.canvas.width, tag.canvas.height);
+        };
+
+        tag.on("mount", () => {tag.prepareChallenge(); tag.displayChallenge()});
+        tag.on("update", tag.displayChallenge);
+    </script>
 </challenge>

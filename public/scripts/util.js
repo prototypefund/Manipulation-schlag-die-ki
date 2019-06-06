@@ -23,5 +23,40 @@ function Timer(stepLength, totalSteps, onStep, onTimeout){
         }
     };
 
+    obj.cancel = function() {
+        clearInterval(obj.timer);
+    };
+
     return obj;
+}
+
+function generateNoise(width, height) {
+    let noise = new Array(width*height*4).fill(0);
+
+    let i = 0;
+    while (i < noise.length) {
+        // RGB
+        noise[i++] = Math.floor(Math.random() * 255);
+        noise[i++] = Math.floor(Math.random() * 255);
+        noise[i++] = Math.floor(Math.random() * 255);
+        // opacity
+        noise[i++] = 210;
+    }
+
+    return noise;
+}
+
+ASSETS = {"images": {}};
+
+function preloadAssets(data) {
+    for (let round in data) {
+        let imageURL = data[round].image;
+
+        let imageData = new Image();
+        imageData.crossOrigin = "anonymous";
+        imageData.onload = () => ASSETS["images"][imageURL] = imageData;
+        imageData.src = imageURL;
+    }
+
+    mobilenet.load().then(model => ASSETS["model"] = model);
 }
