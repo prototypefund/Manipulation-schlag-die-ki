@@ -58,7 +58,6 @@ answers {
 countdown {
     display: grid;
     grid-auto-flow: row;
-    color: #555;
     justify-items: center;
     align-items: center;
 }
@@ -69,7 +68,6 @@ countdown {
     height: 100%;
     display: grid;
     grid-auto-flow: row;
-    color: #555;
     justify-items: center;
     align-items: center;
     text-align: center;

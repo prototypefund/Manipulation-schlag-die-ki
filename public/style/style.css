@@ -38,52 +38,10 @@ button.button-primary:hover {
     background-color: darkorange;
 }
 
-/*******************************************************************
-* loader animation
-********************************************************************/
-
-.loader {
-    border: 2px solid #bbb;
-    border-top: 2px solid darkorange;
-    border-radius: 50%;
-    width: 4rem;
-    height: 4rem;
-    animation: spin 2s linear infinite;
-    margin: 0.2em;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/*******************************************************************
-* scoreboard
-********************************************************************/
-
-.result-correct {
-    color: green;
-    font-size: 5.5rem;
-}
-
-.result-incorrect {
-    color: red;
-    font-size: 5rem;
-}
-
-#score {
-    font-size: 4rem;
-    color: #bbb;
-    /*margin-top: -1rem;
-    margin-bottom: -1rem;*/
-}
-
-#score h1 {
-    font-size: 6rem;
-    font-weight: 300;
-    text-align: center;
-}
-
 countdown, .dashed-border {
     border: dashed 1px #bbb;
+}
+
+countdown, .instructions {
+    color: #555;
 }
