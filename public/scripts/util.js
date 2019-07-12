@@ -14,7 +14,7 @@ function Timer(stepLength, totalSteps, onStep, onTimeout){
         obj.steps += 1;
 
         if (onStep instanceof Function)
-            onStep();
+            onStep(obj.steps);
 
         if (obj.steps == totalSteps){
             clearInterval(obj.timer);
@@ -30,33 +30,17 @@ function Timer(stepLength, totalSteps, onStep, onTimeout){
     return obj;
 }
 
-function generateNoise(width, height) {
-    let noise = new Array(width*height*4).fill(0);
 
-    let i = 0;
-    while (i < noise.length) {
-        // RGB
-        noise[i++] = Math.floor(Math.random() * 255);
-        noise[i++] = Math.floor(Math.random() * 255);
-        noise[i++] = Math.floor(Math.random() * 255);
-        // opacity
-        noise[i++] = 210;
-    }
 
-    return noise;
+function zip(array1, array2){
+    if (array1.length != array2.length)
+        throw Error("Arrays for zip must be the same length");
+    return array1.map((value1, index) => [value1, array2[index]]);
 }
 
-ASSETS = {"images": {}};
-
-function preloadAssets(data) {
-    for (let round in data) {
-        let imageURL = data[round].image;
-
-        let imageData = new Image();
-        imageData.crossOrigin = "anonymous";
-        imageData.onload = () => ASSETS["images"][imageURL] = imageData;
-        imageData.src = imageURL;
-    }
-
-    mobilenet.load().then(model => ASSETS["model"] = model);
+function* range(start, end, step){
+    if (step < 0)
+        throw Error("Negative ranges not supported");
+    for (let i=start; i<end; i+=step)
+        yield i;
 }

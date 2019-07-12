@@ -3,13 +3,13 @@ mapping = {"Katze" :["Egyptian cat", "Persian cat", "Siamese cat", "tabby, tabby
            "Strand": ["seashore, coast, seacoast, sea-coast"],
            "Boot": ["speedboat"]};
 
-function AI(image, correctAnswer, onPredicted) {
+function AI(model, image, correctAnswer, onPredicted) {
     let obj = {};
 
     obj.canceled = false;
 
     obj.predict = function() {
-        ASSETS["model"].classify(image, 3).then(obj.checkAnswer);
+        model.classify(image, 3).then(obj.checkAnswer);
     };
 
     obj.checkAnswer = function(topPredictions){

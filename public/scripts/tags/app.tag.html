@@ -5,7 +5,7 @@
 
     <!-- these will all mount into main grid area -->
     <countdown if={state.countdown.mounted} round={state.countdown.round} length=3 ontimeout={state.countdown.ontimeout}></countdown>
-    <challenge if={state.challenge.mounted} image={state.challenge.image} noise={state.challenge.noise}></challenge>
+    <challenge if={state.challenge.mounted} image={state.challenge.image} perturbation={state.challenge.perturbation}></challenge>
     <overlay if={state.overlay.mounted}></overlay>
     <instructions if={state.instructions.mounted} text={state.instructions.text}></instructions>
 
@@ -19,11 +19,13 @@
     <script>
         let app = this;
 
+        app.round = 0;
+
         // state of all tags on this site, filled with default values
         app.state = {};
         app.state.intro        = {"mounted": false, "onclick": null};
         app.state.countdown    = {"mounted": false, "ontimeout": null, "round": 0};
-        app.state.challenge    = {"mounted": false, "image": null, "noise": null, "timer": null};
+        app.state.challenge    = {"mounted": false, "image": null, "perturbation": null, "timer": null};
         app.state.overlay      = {"mounted": false};
         app.state.instructions = {"mounted": false, "text": null};
         app.state.confirm      = {"mounted": false, "onclick": null};
@@ -59,40 +61,45 @@
 
         app.showRules = function() {
             app.state.instructions.text = "RULES";
-            app.state.confirm.onclick = () => app.startRound(0);
+            app.state.confirm.onclick = () => app.opts.rounds[app.round].load().then(app.startRound);
             app.showScreen(SCREENS.RULES);
         };
 
-        app.startRound = function(roundIndex) {
+        app.startRound = function(roundData) {
+
             // configure the challenge
-            app.state.countdown.round = roundIndex + 1; // humans count from 1, not from 0
-            app.state.challenge.image = opts[roundIndex].image;
-            app.state.answers.answers = opts[roundIndex].answers;
-            app.state.answers.correct = opts[roundIndex].correct;
+            app.state.countdown.round = app.round +1; // humans count from 1, not from 0
+            app.state.challenge.image = roundData.image;
+            app.state.challenge.perturbations = roundData.perturbations; // todo should not be given to tag
+            app.state.answers.answers = roundData.answers;
+            app.state.answers.correct = roundData.correct;
             app.state.answers.disabled = true;
 
             // configure all on-click handlers for this round
             app.state.countdown.ontimeout = app.startChallenge;
             app.state.answers.onselected = app.humanFinished;
-            app.state.confirm.onclick = () => app.startRound(roundIndex+1);
+            app.state.confirm.onclick = () => {app.round+=1;console.log("huhu",app.round);app.opts.rounds[app.round].load().then(app.startRound)};  //this is clicked twice???
 
             // initial screen for the round
             app.showScreen(SCREENS.COUNTDOWN);
         };
 
         app.startChallenge = function() {
-            app.state.challenge.noise = 1.0;
+            if (app.state.challenge.perturbations)
+                app.state.challenge.perturbation = app.state.challenge.perturbations[0];
             app.state.answers.disabled = false;
             app.showScreen(SCREENS.CHALLENGE);
 
             let img = document.getElementById('canvas');
-            app.ai = AI(img, app.state.answers.answers[app.state.answers.correct], app.machineFinished);
+            app.ai = AI(opts.model, img, app.state.answers.answers[app.state.answers.correct], app.machineFinished);
             app.ai.predict();
 
-            function reduceNoise() {
-              app.state.challenge.noise -= 0.1;
+
+            function reduceNoise(step) {
+              if (app.state.challenge.perturbations)
+                  app.state.challenge.perturbation = app.state.challenge.perturbations[step+1];
               app.update();
-              app.ai.predict();
+              //app.ai.predict();
             }
             app.state.challenge.timer = Timer(200, 10, reduceNoise);
             app.state.challenge.timer.start();

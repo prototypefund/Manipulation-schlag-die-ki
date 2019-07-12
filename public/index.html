@@ -28,6 +28,8 @@
     <script src="scripts/tags/game/overlay.tag.html" type="riot/tag"></script>
     <script src="scripts/tags/game/instructions.tag.html" type="riot/tag"></script>
 
+    <script src="scripts/attack.js"></script>
+    <script src="scripts/preload.js"></script>
     <script src="scripts/data.js"></script>
     <script src="scripts/util.js"></script>
     <script src="scripts/ai.js"></script>
@@ -37,8 +39,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@1.0.0"> </script>
 
     <script>
-        preloadAssets(DATA);
-        riot.mount('app', DATA);
+        const assets = preloadAssets(DATA);
+        riot.mount('app', assets);
     </script>
 
 </body>
