@@ -4,6 +4,7 @@
     </div>
 
     <script>
+
         /* parameters given to this app
         opts.answer: List of answers (strings)
         opts.correct: Index of correct answer in opts.answers
@@ -21,12 +22,9 @@
             const selected = e.item.answer.index;
             if (selected == opts.correct) {
                 this.answers[selected].state = "correct";
-                opts.onselected(RESULT.CORRECT);
+                opts.onselected(CONTESTANTS.HUMAN);
             }
-            else {
-                this.answers[selected].state = "incorrect";
-                opts.onselected(RESULT.INCORRECT);
-            }};
+        }
 
     </script>
 

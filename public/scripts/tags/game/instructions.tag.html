@@ -1,18 +1,25 @@
 <instructions>
 
-    <div if={ opts.text=="RULES" } class="instructions dashed-border">
+    <overlay if={opts.overlay}></overlay>
+
+    <div if={ opts.text=="RULES" } class="dashed-border">
         <h2>So funktionierts:</h2>
         <h5>Hier erscheint gleich ein Bild. Welches Verkehrszeichen ist darauf zu sehen?</h5>
         <h5> Die KI läuft im Hintergrund und sieht das gleiche Bild. Wer zuerst richtig antwortet, bekommt einen Punkt.</h5>
     </div>
 
-    <div if={ opts.text=="ROUND1_HUMAN_WINS" } class="instructions">
+    <div if={ opts.text=="ROUND1_HUMAN_WINS" }>
         GLÜCKWUNSCH
     </div>
 
+    <div if={ opts.text=="ROUND1_TIMEOUT_WINS" }>
+        KEINER GEWINNT DU LAME SOCKE
+    </div>
 
-    <div if={ opts.text=="ROUND1_MACHINE_WINS" } class="instructions">
+
+    <div if={ opts.text=="ROUND1_MACHINE_WINS" }>
         OK, das war nicht fair. Bei solchen Bildern ist die KI viel zu schnell
     </div>
 
+    <confirm onclick={opts.onclick}>Alles klar!</confirm>
 </instructions>

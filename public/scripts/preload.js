@@ -1,49 +1,34 @@
 
-function preloadImage(imageURL){
+function preloadImage(imageURL) {
     return new Promise((resolve, reject) => {
         let image = new Image();
         image.crossOrigin = "anonymous";
         image.onload = () => resolve(image);
         image.onerror = error => reject(error);
         image.src = imageURL;
+        image.width = 224;
+        image.height = 224;
     });
 }
 
-function RoundAssets(image, perturbations, answers, correct,){
-    const obj = {};
 
-    obj.load = async function(){
-        return {image: await image,
-                perturbations: await perturbations,
-                answers: answers,
-                correct: correct}
-    };
+async function loadAssetsForRound(data, model){
+    data.image = await preloadImage(data.image);
 
-    return obj;
-}
+    if (data.perturbationType === PERTURBATION_TYPES.NOISE){
+        data.perturbations = await Promise.all(generateNoise(224, 224, data.perturbationLevels));
+    }
+    else if (data.perturbationType === PERTURBATION_TYPES.ADVERSARIAL){
+        model = await model;
+        data.perturbations = await Promise.all(generateAdversarials(model, data.image, data.perturbationLevels));
+    }
 
-function loadRound1Assets(data){
-    return RoundAssets(preloadImage(data.image), null, data.answers, data.correct);
-}
-
-function loadRound2Assets(data){
-    const noise = generateNoise(400, 300);
-    const perturbationLevels = Array.from(range(0.0, 1.0, 0.1)).reverse().map(e => e*255);
-    const perturbations = Promise.all(perturbationLevels.map(opacity => setNoiseOpacity(noise, opacity)));
-    return RoundAssets(preloadImage(data.image), perturbations, data.answers, data.correct);
-}
-
-function loadRound3Assets(data){
-    const noise = generateNoise(400, 300);
-    const perturbationLevels = Array.from(range(0.0, 1.0, 0.1)).reverse().map(e => e*255);
-    const perturbations = Promise.all(perturbationLevels.map(opacity => setNoiseOpacity(noise, opacity)));
-    return RoundAssets(preloadImage(data.image), perturbations, data.answers, data.correct);
+    return data;
 }
 
 
 function preloadAssets(data) {
-    const assets = {};
-    mobilenet.load().then(model => assets.model = model);
-    assets.rounds = [loadRound1Assets(data[0]), loadRound2Assets(data[1]), loadRound3Assets(data[2])];
-    return assets;
+    data.model = Model(data.model);
+    data.rounds = data.rounds.map(round => loadAssetsForRound(round, data.model));
+    return data;
 }

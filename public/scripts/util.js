@@ -1,4 +1,3 @@
-const RESULT = {"CORRECT": "correct", "INCORRECT": "incorrect"};
 
 function Timer(stepLength, totalSteps, onStep, onTimeout){
     let obj = {};
@@ -29,7 +28,6 @@ function Timer(stepLength, totalSteps, onStep, onTimeout){
 
     return obj;
 }
-
 
 
 function zip(array1, array2){

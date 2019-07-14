@@ -1,140 +1,157 @@
 <app>
-    <header></header>
-
-    <intro if={state.intro.mounted} onclick={state.intro.onclick}></intro>
-
-    <!-- these will all mount into main grid area -->
-    <countdown if={state.countdown.mounted} round={state.countdown.round} length=3 ontimeout={state.countdown.ontimeout}></countdown>
-    <challenge if={state.challenge.mounted} image={state.challenge.image} perturbation={state.challenge.perturbation}></challenge>
-    <overlay if={state.overlay.mounted}></overlay>
-    <instructions if={state.instructions.mounted} text={state.instructions.text}></instructions>
-
-    <!-- these will all mount into sub grid area -->
-    <confirm if={state.confirm.mounted} onclick={state.confirm.onclick}></confirm>
-    <answers if={state.answers.mounted} disabled={state.answers.disabled} answers={state.answers.answers} correct={state.answers.correct} onselected={state.answers.onselected}></answers>
-
-    <footer></footer>
-
 
     <script>
         let app = this;
 
-        app.round = 0;
 
-        // state of all tags on this site, filled with default values
-        app.state = {};
-        app.state.intro        = {"mounted": false, "onclick": null};
-        app.state.countdown    = {"mounted": false, "ontimeout": null, "round": 0};
-        app.state.challenge    = {"mounted": false, "image": null, "perturbation": null, "timer": null};
-        app.state.overlay      = {"mounted": false};
-        app.state.instructions = {"mounted": false, "text": null};
-        app.state.confirm      = {"mounted": false, "onclick": null};
-        app.state.answers      = {"mounted": false, "disabled": true, "answers": null, "correct": null, "onselected": null};
-
-        app.ai = null;
-
-        // which tags are mounted for which screen
-        const SCREENS = {"INTRO":     ["intro"],
-                         "RULES":     ["instructions", "confirm"],
-                         "COUNTDOWN": ["countdown", "answers"],
-                         "CHALLENGE": ["challenge", "answers"],
-                         "RETRO":     ["overlay", "instructions", "confirm"]};
-
-        app.showScreen = function(screen) {
-            let mountedCurrentScreen = t => app.state[t].mounted;
-            let mountedNextScreen = t => screen.includes(t);
-
-            // update mounted settings
-            for (let tag in app.state) {
-                if (mountedCurrentScreen(tag) && !mountedNextScreen(tag))
-                    app.state[tag].mounted = false;
-                if (!mountedCurrentScreen(tag) && mountedNextScreen(tag))
-                    app.state[tag].mounted = true;
-            }
-            app.update();
+        app.showInfoScreen = function(tag, opts, resolveOn){
+            return new Promise((resolve, reject) => {
+                let mounted = null;
+                opts = opts || {};
+                opts[resolveOn] = () => {mounted.unmount(true); resolve(arguments)};
+                mounted = riot.mount(tag, opts)[0];
+            });
         };
 
-        app.showIntro = function () {
-            app.state.intro.onclick = app.showRules;
-            app.showScreen(SCREENS.INTRO);
+        app.initChallenge = function(data) {
+
+            const obj = {};
+
+            obj.CLEAN_IMAGE_TIMEOUT = 30*1000; // how long image without any perturbation is shown
+            obj.PERTURBATION_TIMEOUT = 200;     // how long image with perturbation is shown
+
+            // todo loading screen
+            obj.loadData = async function(){
+                obj.data = await data;
+            };
+
+            obj.showAnswers = function(){
+                obj.answers = {};
+                obj.answers.opts = {answers: obj.data.answers, correct: obj.data.correct, disabled: true, onselected: () => {}};
+                obj.answers.mount = riot.mount("answers", obj.answers.opts)[0];
+            };
+
+            obj.showImage = function(perturbation){
+                obj.image = {};
+                obj.image.opts = {image: obj.data.image, perturbation: perturbation};
+                obj.image.mount = riot.mount("challenge", obj.image.opts)[0];
+                obj.image.canvas = document.getElementById("canvas");
+            };
+
+            obj.setPerturbation = function(perturbation){
+                obj.image.opts.perturbation = perturbation;
+                obj.image.mount.update();
+            };
+
+            obj.enableHuman = function(){
+                return new Promise((resolve, reject) => {
+                    obj.answers.opts.disabled = false;
+                    obj.answers.opts.onselected = resolve;
+                    obj.answers.mount.update();
+                });
+            };
+
+            obj.setTimer = ms => new Promise(resolve => setTimeout(() => resolve("TIMEOUT"), ms));
+
+            obj.removeAnswers = function(){
+                obj.answers.mount.unmount(true);
+            };
+
+            obj.removeImage = function(){
+                obj.image.mount.unmount(true);
+            };
+
+            obj.unmount = obj.removeImage;
+
+            obj.fightOnce = async function(human, model, length){
+                const machine = model.predictAndCheck(obj.image.canvas, obj.data.answers[obj.data.correct]);
+                const timer = obj.setTimer(length);
+                const [firstToFinish, result] = await Promise.race([human, machine, timer]);
+
+                // human promise will only finish if correct answer was clicked -> no need to check the answer
+                if ((firstToFinish === CONTESTANTS.HUMAN) || (firstToFinish === CONTESTANTS.TIMEOUT))
+                    return firstToFinish;
+
+                // machine was finished first, but it might have given the wrong answer
+                // in this case it makes no sense to ask machine again (it will just give the same wrong answer again)
+                // but human still gets chance to change their mind until timer runs out
+                if (result === RESULTS.CORRECT)
+                    return firstToFinish;
+                else
+                    return await Promise.race([human, timer]);
+
+            };
+
+            obj.fight = async function(human, model){
+                // first loop through all perturbations (if any) and show each for short time to human and to machine
+                if (obj.data.perturbations){
+                    for (let i in obj.data.perturbations){
+                        obj.setPerturbation(obj.data.perturbations[i]);
+                        const winner = await obj.fightOnce(human, model, obj.PERTURBATION_TIMEOUT);
+                        if (winner !== CONTESTANTS.TIMEOUT)
+                            return winner;
+                    }
+                }
+                // show the clean image for a longer time
+                return await obj.fightOnce(human, model, obj.CLEAN_IMAGE_TIMEOUT);
+            };
+
+
+            obj.run = async function(model){
+                await obj.loadData();
+
+                // prepare the UI
+                obj.showAnswers();
+                await app.showInfoScreen("countdown", {length: 3}, "ontimeout");
+                const initialPerturbation = obj.data.perturbations ? obj.data.perturbations[0]: null;
+                obj.showImage(initialPerturbation);
+
+                // fight!
+                const human = obj.enableHuman();
+                const winner = await obj.fight(human, model);
+
+                // disable
+                obj.removeAnswers();
+
+                return winner;
+            };
+
+
+            return obj;
         };
 
-        app.showRules = function() {
-            app.state.instructions.text = "RULES";
-            app.state.confirm.onclick = () => app.opts.rounds[app.round].load().then(app.startRound);
-            app.showScreen(SCREENS.RULES);
-        };
+        app.run = async function() {
 
-        app.startRound = function(roundData) {
+            // main intro and instructions
+            // await app.showInfoScreen("intro", {}, "onclick");
+            //await app.showInfoScreen("instructions", {text: "RULES"}, "onclick");
 
-            // configure the challenge
-            app.state.countdown.round = app.round +1; // humans count from 1, not from 0
-            app.state.challenge.image = roundData.image;
-            app.state.challenge.perturbations = roundData.perturbations; // todo should not be given to tag
-            app.state.answers.answers = roundData.answers;
-            app.state.answers.correct = roundData.correct;
-            app.state.answers.disabled = true;
+            // prepare the Model
+            const model = await opts.model;  // todo loading screen
 
-            // configure all on-click handlers for this round
-            app.state.countdown.ontimeout = app.startChallenge;
-            app.state.answers.onselected = app.humanFinished;
-            app.state.confirm.onclick = () => {app.round+=1;console.log("huhu",app.round);app.opts.rounds[app.round].load().then(app.startRound)};  //this is clicked twice???
+            // round1
+            const round1 = app.initChallenge(opts.rounds[0]);
+            const winner1 = await round1.run(model);
+            await app.showInfoScreen("instructions", {text: "ROUND1_"+winner1+"_WINS", overlay: true}, "onclick");
+            round1.unmount();
 
-            // initial screen for the round
-            app.showScreen(SCREENS.COUNTDOWN);
-        };
+            // round2
+            const round2 = app.initChallenge(opts.rounds[1]);
+            const winner2 = await round2.run(model);
+            await app.showInfoScreen("instructions", {text: "ROUND1_"+winner2+"_WINS", overlay: true}, "onclick");
+            round2.unmount();
 
-        app.startChallenge = function() {
-            if (app.state.challenge.perturbations)
-                app.state.challenge.perturbation = app.state.challenge.perturbations[0];
-            app.state.answers.disabled = false;
-            app.showScreen(SCREENS.CHALLENGE);
-
-            let img = document.getElementById('canvas');
-            app.ai = AI(opts.model, img, app.state.answers.answers[app.state.answers.correct], app.machineFinished);
-            app.ai.predict();
-
-
-            function reduceNoise(step) {
-              if (app.state.challenge.perturbations)
-                  app.state.challenge.perturbation = app.state.challenge.perturbations[step+1];
-              app.update();
-              //app.ai.predict();
-            }
-            app.state.challenge.timer = Timer(200, 10, reduceNoise);
-            app.state.challenge.timer.start();
-        };
-
-        app.humanFinished = function(result){
-            if (result == RESULT.CORRECT) {
-                //app.state.ai.disabled = true;
-                app.state.instructions.text = "ROUND1_HUMAN_WINS";
-                app.showScreen(SCREENS.RETRO);
-                app.state.challenge.timer.cancel();
-                app.ai.cancel();
-                app.ai = null;
-            }
+            // round3
+            const round3 = app.initChallenge(opts.rounds[2]);
+            const winner3 = await round3.run(model);
+            await app.showInfoScreen("instructions", {text: "ROUND1_"+winner3+"_WINS", overlay: true}, "onclick");
+            round3.unmount();
 
         };
 
 
-        app.machineFinished = function(result){
-            if (result == RESULT.CORRECT) {
-                app.state.instructions.text = "ROUND1_MACHINE_WINS";
-                app.showScreen(SCREENS.RETRO);
-                app.state.challenge.timer.cancel();
-                app.ai.cancel();
-                app.ai = null;
-            }
-            // todo incorrect
-        };
-
-        app.on("mount", app.showRules);
+        app.on("mount", app.run);
 
     </script>
 
 </app>
-
-<confirm>
-    <button onclick={opts.onclick} class="button-primary">Alles klar!</button>
-</confirm>

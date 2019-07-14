@@ -23,13 +23,21 @@
     </style>
 
     <script>
-        let tag = this;
-        tag.currentOpacity = 15;
+        const tag = this;
+        const timeout = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-        tag.increaseOpacity = function() {
-            tag.currentOpacity += 10;
-            tag.update();
+        tag.currentOpacity = 15;
+        tag.opacityLevels = [15, 25, 25, 45, 55, 65, 75, 85, 95];
+
+
+        tag.animate = async function(){
+            for (let i in tag.opacityLevels){
+                tag.currentOpacity = tag.opacityLevels[i];
+                tag.update();
+                await timeout(20);
+            }
         };
-        Timer(20, 8, tag.increaseOpacity, null).start();
+
+        tag.on("mount", tag.animate);
     </script>
 </overlay>

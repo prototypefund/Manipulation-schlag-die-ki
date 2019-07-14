@@ -3,18 +3,17 @@
 * MAIN GRID
 ********************************************************************/
 
-app {
+body {
     display: grid;
     grid-gap: 6rem;
     margin-top: 5rem;
-    grid-template-columns: auto auto 400px auto auto;
-    grid-template-rows: auto 300px auto auto;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: auto auto auto;
     justify-items: center;
     grid-template-areas:
-            ". header header header . "
-            ".    .     main   .    ."
-            ".    .     sub  .    . "
-            ". footer footer footer . ";
+            ". header  . "
+            ". content . "
+            ". footer  . ";
 }
 
 header {
@@ -25,12 +24,23 @@ footer {
     grid-area: footer;
 }
 
-intro {
-    grid-column: 2 / -2;
-    grid-row: 2 / -2;
+intro, countdown {
+    grid-area: content;
 }
 
-challenge, countdown, overlay, instructions {
+instructions, #challenge-container {
+    grid-area: content;
+    display: grid;
+    grid-gap: 6rem;
+    grid-template-columns: auto 224px auto;
+    grid-template-rows: 224px auto;
+    justify-items: center;
+    grid-template-areas:
+       " . main . "
+       " . sub  . "
+}
+
+challenge, instructions > div, instructions > overlay {
     grid-area: main;
     justify-self: stretch; /* makes sure whole width is used */
 }
@@ -39,7 +49,7 @@ answers, confirm {
     grid-area: sub;
 }
 
-canvas, instructions, overlay {
+canvas, instructions > div, instructions > overlay {
     width: 100%;
     height: 100%;
 }
@@ -63,7 +73,7 @@ countdown {
 }
 
 
-.instructions {
+instructions > div {
     width: 100%;
     height: 100%;
     display: grid;
@@ -73,3 +83,30 @@ countdown {
     text-align: center;
 }
 
+/*******************************************************************
+* VERTICAL LAYOUT
+********************************************************************/
+
+button {
+    z-index: 999;
+}
+
+canvas {
+    z-index: 0;
+}
+
+answers {
+    z-index: 2;
+}
+
+overlay {
+    z-index: 1;
+}
+
+instructions {
+    z-index: 2;
+}
+
+instructions > div {
+    z-index: 3;
+}

@@ -14,7 +14,19 @@
 
 <body>
 
-    <app></app>
+        <header></header>
+        <app></app>
+
+        <intro></intro>
+        <instructions></instructions>
+        <countdown></countdown>
+        <div id="challenge-container">
+            <challenge></challenge>
+            <answers></answers>
+        </div>
+        <footer></footer>
+
+
 
     <script src="scripts/tags/app.tag.html" type="riot/tag"></script>
     <script src="scripts/tags/header.tag.html" type="riot/tag"></script>
@@ -24,23 +36,32 @@
     <script src="scripts/tags/game/countdown.tag.html" type="riot/tag"></script>
     <script src="scripts/tags/game/challenge.tag.html" type="riot/tag"></script>
     <script src="scripts/tags/game/answers.tag.html" type="riot/tag"></script>
-
+    <script src="scripts/tags/game/confirm.tag.html" type="riot/tag"></script>
     <script src="scripts/tags/game/overlay.tag.html" type="riot/tag"></script>
     <script src="scripts/tags/game/instructions.tag.html" type="riot/tag"></script>
 
+    <script src="scripts/data.js"></script>
     <script src="scripts/attack.js"></script>
     <script src="scripts/preload.js"></script>
-    <script src="scripts/data.js"></script>
     <script src="scripts/util.js"></script>
-    <script src="scripts/ai.js"></script>
+    <script src="scripts/model.js"></script>
+    <script src="scripts/imagenet_classes.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/riot/3.13.2/riot+compiler.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.1"> </script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.2.2"> </script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@1.0.0"> </script>
 
     <script>
+
+        const CONTESTANTS = {"HUMAN": "HUMAN", "MACHINE": "MACHINE", "TIMEOUT": "TIMEOUT"};
+        const RESULTS = {"CORRECT": "CORRECT", "INCORRECT": "INCORRECT"};
+
         const assets = preloadAssets(DATA);
+
+        // order is important, app has to be mounted first. otherwise app can not properly mount child tags (dunno why)
         riot.mount('app', assets);
+        riot.mount('header');
+        riot.mount('footer');
     </script>
 
 </body>
