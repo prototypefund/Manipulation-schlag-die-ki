@@ -6,8 +6,8 @@ function preloadImage(imageURL) {
         image.onload = () => resolve(image);
         image.onerror = error => reject(error);
         image.src = imageURL;
-        image.width = 224;
-        image.height = 224;
+        image.width = IMAGE_WIDTH;
+        image.height = IMAGE_HEIGHT;
     });
 }
 
@@ -16,7 +16,7 @@ async function loadAssetsForRound(data, model){
     data.image = await preloadImage(data.image);
 
     if (data.perturbationType === PERTURBATION_TYPES.NOISE){
-        data.perturbations = await Promise.all(generateNoise(224, 224, data.perturbationLevels));
+        data.perturbations = await Promise.all(generateNoise(data.perturbationLevels));
     }
     else if (data.perturbationType === PERTURBATION_TYPES.ADVERSARIAL){
         model = await model;

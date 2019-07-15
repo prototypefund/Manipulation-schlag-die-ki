@@ -6,15 +6,13 @@
 
         tag.displayChallenge = function() {
             if (opts.perturbation) {
-                // move to pixel thing to noise creation? todo
                 let pixels = tag.ctx.createImageData(tag.canvas.width, tag.canvas.height);
                 pixels.data.set(opts.perturbation);
                 tag.ctx.putImageData(pixels, 0, 0);
             }
 
-            //tag.displayNoise(opts.noise*255);
-            //tag.ctx.globalCompositeOperation='destination-over'; // drawn behind the noise
-            //tag.ctx.drawImage(opts.image,0,0, canvas.width, canvas.height);
+            tag.ctx.globalCompositeOperation='destination-over'; // drawn behind the perturbation
+            tag.ctx.drawImage(opts.image,0,0, canvas.width, canvas.height);
         };
 
         tag.init = function() {

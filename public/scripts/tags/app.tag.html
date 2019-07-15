@@ -18,7 +18,7 @@
             const obj = {};
 
             obj.CLEAN_IMAGE_TIMEOUT = 30*1000; // how long image without any perturbation is shown
-            obj.PERTURBATION_TIMEOUT = 200;     // how long image with perturbation is shown
+            obj.PERTURBATION_TIMEOUT = 300;     // how long image with perturbation is shown
 
             // todo loading screen
             obj.loadData = async function(){
@@ -36,6 +36,7 @@
                 obj.image.opts = {image: obj.data.image, perturbation: perturbation};
                 obj.image.mount = riot.mount("challenge", obj.image.opts)[0];
                 obj.image.canvas = document.getElementById("canvas");
+                console.log(obj.data.image.height);
             };
 
             obj.setPerturbation = function(perturbation){
@@ -123,7 +124,7 @@
         app.run = async function() {
 
             // main intro and instructions
-            // await app.showInfoScreen("intro", {}, "onclick");
+            //await app.showInfoScreen("intro", {}, "onclick");
             //await app.showInfoScreen("instructions", {text: "RULES"}, "onclick");
 
             // prepare the Model

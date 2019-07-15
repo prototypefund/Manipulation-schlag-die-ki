@@ -1,8 +1,9 @@
 mapping = {"Katze" :["Egyptian cat", "Persian cat", "Siamese cat", "tabby, tabby cat", "tiger cat", "cougar, puma, ",
                      "catamount, mountain lion, painter, panther, Felis concolor", "lynx, catamount"],
            "Strand": ["seashore, coast, seacoast, sea-coast", "sandbar, sand bar"],
-           "Boot": ["speedboat"]};
+           "Boot": ["speedboat", "lifeboat"]};
 
+MODEL_INPUT_SIZE = 224;
 
 async function Model(modelURL){
     let obj = {};
@@ -27,8 +28,9 @@ async function Model(modelURL){
     obj.predictAndCheck = async function(image, correctAnswer) {
         return tf.tidy(() => {
             const imageTensor = tf.browser.fromPixels(image).expandDims();
-            const imageTensorScaled = obj.scaleImage(imageTensor);
-            const predictions = obj.model.predict(imageTensorScaled);
+            const imageResized = tf.image.resizeBilinear(imageTensor,[MODEL_INPUT_SIZE,MODEL_INPUT_SIZE]);
+            const imageScaled = obj.scaleImage(imageResized);
+            const predictions = obj.model.predict(imageScaled);
 
             const indexTop = predictions.argMax(1).dataSync()[0]; // todo sync
             const scoreTop = predictions.dataSync()[indexTop]; // todo sync

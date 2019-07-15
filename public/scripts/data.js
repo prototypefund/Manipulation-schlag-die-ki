@@ -13,8 +13,8 @@ const round2 = {"image": "https://news.nationalgeographic.com/content/dam/news/2
 const round3 = {"image": "https://upload.wikimedia.org/wikipedia/commons/d/d9/Motorboat_at_Kankaria_lake.JPG",
                 "answers": ["Boot", "Stuhl", "Fahrrad"],
                 "correct": 0,
-                "perturbationType": PERTURBATION_TYPES.ADVERSARIAL,
+                "perturbationType": PERTURBATION_TYPES.NOISE,
                 "perturbationLevels": [210, 185, 160, 135, 110, 85, 60, 35, 15]};
 
 const DATA = {"model": "https://storage.googleapis.com/tfjs-models/tfjs/mobilenet_v1_0.25_224/model.json",
-              "rounds": [round1, round2, round3]};
+              "rounds": [round3, round2, round1]};

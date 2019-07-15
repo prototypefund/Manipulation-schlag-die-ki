@@ -24,23 +24,23 @@ footer {
     grid-area: footer;
 }
 
-intro, countdown {
+intro {
     grid-area: content;
 }
 
-instructions, #challenge-container {
+instructions, #challenge-container, countdown {
     grid-area: content;
     display: grid;
     grid-gap: 6rem;
-    grid-template-columns: auto 224px auto;
-    grid-template-rows: 224px auto;
+    grid-template-columns: auto 400px auto;
+    grid-template-rows: 300px auto;
     justify-items: center;
     grid-template-areas:
        " . main . "
        " . sub  . "
 }
 
-challenge, instructions > div, instructions > overlay {
+challenge, instructions > div, instructions > overlay, countdown > div {
     grid-area: main;
     justify-self: stretch; /* makes sure whole width is used */
 }
@@ -49,7 +49,7 @@ answers, confirm {
     grid-area: sub;
 }
 
-canvas, instructions > div, instructions > overlay {
+canvas, instructions > div, instructions > overlay, countdown > div {
     width: 100%;
     height: 100%;
 }
@@ -65,7 +65,7 @@ answers {
     grid-gap: 2em;
 }
 
-countdown {
+countdown > div {
     display: grid;
     grid-auto-flow: row;
     justify-items: center;

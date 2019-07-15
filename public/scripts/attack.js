@@ -39,17 +39,20 @@ initFGSM = function (trainedModel, pixelMin = -1.0, pixelMax = 1.0) {
      *  Exported attack functions
      ****************************************************************************/
 
-    obj.untargetedAttack = function (image, originalClass, epsilon, numSteps = 1) {
+    obj.untargetedPerturbation = function (image, originalClass, epsilon, numSteps = 1) {
         return tf.tidy(() => {
             const calculateGradient = initCalculateGradient(originalClass);
-            return performAttack(image, calculateGradient, tf.add, epsilon, numSteps);
+            const adversarial = performAttack(image, calculateGradient, tf.add, epsilon, numSteps);
+            const perturbation = image.sub(adversarial);
+            return perturbation;
         });
     };
 
-    obj.targetedAttack = function (image, targetClass, epsilon, numSteps = 1) {
+    obj.targetedPerturbation = function (image, targetClass, epsilon, numSteps = 1) {
         return tf.tidy(() => {
             const calculateGradient = initCalculateGradient(targetClass);
-            return performAttack(image, calculateGradient, tf.sub, epsilon, numSteps);
+            const adversarial = performAttack(image, calculateGradient, tf.sub, epsilon, numSteps);;
+            return adversarial;
         });
     };
 
@@ -57,18 +60,13 @@ initFGSM = function (trainedModel, pixelMin = -1.0, pixelMax = 1.0) {
 };
 
 
-function generateNoise(width, height, opacityLevels) {
+function generateNoise(opacityLevels) {
     return tf.tidy(() => {
-        const randomChannelData = () => tf.randomUniform([width, height, 1], 0, 255).toInt();
-
-        const red = randomChannelData();
-        const green = randomChannelData();
-        const blue = randomChannelData();
+        const noise = tf.randomUniform([IMAGE_HEIGHT, IMAGE_WIDTH, 3], 0, 255).toInt();
 
         const noiseWithOpacity = function(opacityLevel){
-            const opacity = tf.fill([width, height, 1], opacityLevel);
-            const noise = tf.concat([red, green, blue, opacity], 2);
-            return noise.data();
+            const opacity = tf.fill([IMAGE_HEIGHT, IMAGE_WIDTH, 1], opacityLevel);
+            return noise.concat(opacity, 2).data();
         };
 
         return opacityLevels.map(noiseWithOpacity);
@@ -82,16 +80,15 @@ function generateAdversarials(model, image, opacityLevels){
         const FGSM = initFGSM(model);
 
         const imageTensor = tf.browser.fromPixels(image).expandDims();
-        const imageTensorScaled = model.scaleImage(imageTensor);
-        const realClass = model.model.predict(imageTensorScaled).slice(0).argMax().dataSync()[0]; // todo sync
-        /*console.log(realClass);*/
+        const imageResized = tf.image.resizeBilinear(imageTensor,[MODEL_INPUT_SIZE,MODEL_INPUT_SIZE]);
+        const imageTensorScaled = model.scaleImage(imageResized);
+        const opacity = tf.fill([IMAGE_HEIGHT, IMAGE_WIDTH, 1], 255);
 
         const calculatePerturbation = function(perturbationLevel){
-            const adversarialScaled = FGSM.targetedAttack(imageTensorScaled, 1, perturbationLevel / 255, 20);
-            const adversarial = model.unscaleImage(adversarialScaled).toInt().gather(0);
-            //const perturbation = imageTensor.sub(adversarial).toInt().gather(0);  // todo add or subtract correct?
-            const opacity = tf.fill([224, 224, 1], 255);
-            return adversarial.concat(opacity, 2).data();
+            const adversarialScaled = FGSM.targetedPerturbation(imageTensorScaled, 1, perturbationLevel / 255, 20);
+            const perturbation = model.unscaleImage(adversarialScaled).toInt().gather(0);
+            const perturbationResized =  tf.image.resizeBilinear(perturbation,[IMAGE_HEIGHT, IMAGE_WIDTH]);
+            return perturbationResized.concat(opacity, 2).data();
         };
 
         return opacityLevels.map(calculatePerturbation);
