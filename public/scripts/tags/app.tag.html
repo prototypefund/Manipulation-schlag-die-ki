@@ -146,13 +146,13 @@
 
             // round2
             const round2 = app.initChallenge(data.rounds[1]);
-            const winner2 = await round2.run(model);
+            const winner2 = await round2.run(data.model);
             await app.showInfoScreen("instructions", {text: "ROUND1_"+winner2+"_WINS", overlay: true}, "onclick");
             round2.unmount();
 
             // round3
             const round3 = app.initChallenge(data.rounds[2]);
-            const winner3 = await round3.run(model);
+            const winner3 = await round3.run(data.model);
             await app.showInfoScreen("instructions", {text: "ROUND1_"+winner3+"_WINS", overlay: true}, "onclick");
             round3.unmount();
         };
