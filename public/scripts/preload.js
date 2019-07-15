@@ -27,8 +27,8 @@ async function loadAssetsForRound(data, model){
 }
 
 
-function preloadAssets(data) {
-    data.model = Model(data.model);
-    data.rounds = data.rounds.map(round => loadAssetsForRound(round, data.model));
+async function preloadAssets(data) {
+    data.model = await Model(data.model);
+    data.rounds = await Promise.all(data.rounds.map(round => loadAssetsForRound(round, data.model)));
     return data;
 }

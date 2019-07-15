@@ -13,6 +13,13 @@
             });
         };
 
+        app.loadData = async function(data){
+            const spinner = riot.mount("spinner")[0];
+            const dataLoaded = await preloadAssets(data);
+            spinner.unmount(true);
+            return dataLoaded;
+        };
+
         app.initChallenge = function(data) {
 
             const obj = {};
@@ -122,32 +129,32 @@
         };
 
         app.run = async function() {
-
-            // main intro and instructions
+            // animated intro
             //await app.showInfoScreen("intro", {}, "onclick");
-            //await app.showInfoScreen("instructions", {text: "RULES"}, "onclick");
 
-            // prepare the Model
-            const model = await opts.model;  // todo loading screen
+            // spinner while loading data
+            const data = await app.loadData(opts);
+
+            // rules
+            await app.showInfoScreen("instructions", {text: "RULES"}, "onclick");
 
             // round1
-            const round1 = app.initChallenge(opts.rounds[0]);
-            const winner1 = await round1.run(model);
+            const round1 = app.initChallenge(data.rounds[0]);
+            const winner1 = await round1.run(data.model);
             await app.showInfoScreen("instructions", {text: "ROUND1_"+winner1+"_WINS", overlay: true}, "onclick");
             round1.unmount();
 
             // round2
-            const round2 = app.initChallenge(opts.rounds[1]);
+            const round2 = app.initChallenge(data.rounds[1]);
             const winner2 = await round2.run(model);
             await app.showInfoScreen("instructions", {text: "ROUND1_"+winner2+"_WINS", overlay: true}, "onclick");
             round2.unmount();
 
             // round3
-            const round3 = app.initChallenge(opts.rounds[2]);
+            const round3 = app.initChallenge(data.rounds[2]);
             const winner3 = await round3.run(model);
             await app.showInfoScreen("instructions", {text: "ROUND1_"+winner3+"_WINS", overlay: true}, "onclick");
             round3.unmount();
-
         };
 
 

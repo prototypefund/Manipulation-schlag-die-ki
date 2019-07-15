@@ -24,7 +24,7 @@ footer {
     grid-area: footer;
 }
 
-intro {
+intro, spinner {
     grid-area: content;
 }
 
@@ -65,7 +65,7 @@ answers {
     grid-gap: 2em;
 }
 
-countdown > div {
+countdown > div, spinner {
     display: grid;
     grid-auto-flow: row;
     justify-items: center;
