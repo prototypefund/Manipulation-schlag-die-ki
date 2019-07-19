@@ -6,7 +6,7 @@
             width: 100%;
             height: 100%;
             background: white; /* fallback for older browsers */
-            background: rgba(255, 255, 255, 0.0);
+            background: rgba(255, 255, 255, 1.0);
         }
 
         .opaque15 {background: rgba(255, 255, 255, 0.15);}
@@ -18,26 +18,36 @@
         .opaque75 {background: rgba(255, 255, 255, 0.75);}
         .opaque85 {background: rgba(255, 255, 255, 0.85);}
         .opaque95 {background: rgba(255, 255, 255, 0.95);}
+        .opaque100 {background: rgba(255, 255, 255, 1.00);}
 
 
     </style>
 
     <script>
-        const tag = this;
         const timeout = ms => new Promise(resolve => setTimeout(resolve, ms));
+        const FADEIN_OPACITY_LEVELS = [15, 25, 25, 45, 55, 65, 75, 85, 95];
 
-        tag.currentOpacity = 15;
-        tag.opacityLevels = [15, 25, 25, 45, 55, 65, 75, 85, 95];
+        const tag = this;
+        tag.maxOpacity = opts.maxopacity || 100;
+        tag.currentOpacity = tag.maxOpacity;
 
+        tag.show = async function(){
+            if (opts.fadein){
+                const opacityLevels = FADEIN_OPACITY_LEVELS.filter(e => e<=tag.maxOpacity);
+                await tag.fadeIn(opacityLevels);
+            }
+            tag.currentOpacity = tag.maxOpacity;
+            tag.update();
+        };
 
-        tag.animate = async function(){
-            for (let i in tag.opacityLevels){
-                tag.currentOpacity = tag.opacityLevels[i];
+        tag.fadeIn = async function(opacityLevels){
+            for (let i in opacityLevels){
+                tag.currentOpacity = opacityLevels[i];
                 tag.update();
                 await timeout(20);
             }
         };
 
-        tag.on("mount", tag.animate);
+        tag.on("mount", tag.show);
     </script>
 </overlay>

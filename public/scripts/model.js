@@ -1,8 +1,3 @@
-mapping = {"Katze" :["Egyptian cat", "Persian cat", "Siamese cat", "tabby, tabby cat", "tiger cat", "cougar, puma, ",
-                     "catamount, mountain lion, painter, panther, Felis concolor", "lynx, catamount"],
-           "Strand": ["seashore, coast, seacoast, sea-coast", "sandbar, sand bar"],
-           "Boot": ["speedboat", "lifeboat"]};
-
 MODEL_INPUT_SIZE = 224;
 
 async function Model(modelURL){
@@ -25,7 +20,7 @@ async function Model(modelURL){
     };
 
 
-    obj.predictAndCheck = async function(image, correctAnswer) {
+    obj.predictAndCheck = async function(image, category, label) {
         return tf.tidy(() => {
             const imageTensor = tf.browser.fromPixels(image).expandDims();
             const imageResized = tf.image.resizeBilinear(imageTensor,[MODEL_INPUT_SIZE,MODEL_INPUT_SIZE]);
@@ -38,7 +33,7 @@ async function Model(modelURL){
             console.log(classTop, scoreTop);
 
             // todo what is a good probability cutoff?
-            if (mapping[correctAnswer].includes(classTop))
+            if (IMAGENET_CATEGORIES[category][label].includes(indexTop.toString()))
                 return [CONTESTANTS.MACHINE, RESULTS.CORRECT];
             else
                 return [CONTESTANTS.MACHINE, RESULTS.INCORRECT];

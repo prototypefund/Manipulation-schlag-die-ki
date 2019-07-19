@@ -13,28 +13,27 @@
             });
         };
 
-        app.loadData = async function(data){
+        app.showLoadingScreen = async function(promise){
             const spinner = riot.mount("spinner")[0];
-            const dataLoaded = await preloadAssets(data);
+            const result = await promise;
             spinner.unmount(true);
-            return dataLoaded;
+            return result;
         };
 
-        app.initChallenge = function(data) {
-
-            const obj = {};
+        app.Challenge = function(data, model) {
+            const obj = {data: data, model: model};
 
             obj.CLEAN_IMAGE_TIMEOUT = 30*1000; // how long image without any perturbation is shown
             obj.PERTURBATION_TIMEOUT = 300;     // how long image with perturbation is shown
 
-            // todo loading screen
-            obj.loadData = async function(){
-                obj.data = await data;
-            };
-
             obj.showAnswers = function(){
+                const possibleAnswers = Object.keys(IMAGENET_CATEGORIES[obj.data.category]);
+                const incorrectAnswers = possibleAnswers.filter(answer => answer != obj.data.label);
+                const selectedIncorrectAnswers = shuffle(incorrectAnswers).slice(0,2);
+                const answers = shuffle(selectedIncorrectAnswers.concat(obj.data.label));
+
                 obj.answers = {};
-                obj.answers.opts = {answers: obj.data.answers, correct: obj.data.correct, disabled: true, onselected: () => {}};
+                obj.answers.opts = {answers: answers, correct: obj.data.label, disabled: true, onselected: () => {}};
                 obj.answers.mount = riot.mount("answers", obj.answers.opts)[0];
             };
 
@@ -43,7 +42,6 @@
                 obj.image.opts = {image: obj.data.image, perturbation: perturbation};
                 obj.image.mount = riot.mount("challenge", obj.image.opts)[0];
                 obj.image.canvas = document.getElementById("canvas");
-                console.log(obj.data.image.height);
             };
 
             obj.setPerturbation = function(perturbation){
@@ -71,10 +69,10 @@
 
             obj.unmount = obj.removeImage;
 
-            obj.fightOnce = async function(human, model, length){
-                const machine = model.predictAndCheck(obj.image.canvas, obj.data.answers[obj.data.correct]);
+            obj.fightOnce = async function(human, length){
+                //const machine = obj.model.predictAndCheck(obj.image.canvas, obj.data.category, obj.data.label);
                 const timer = obj.setTimer(length);
-                const [firstToFinish, result] = await Promise.race([human, machine, timer]);
+                const [firstToFinish, result] = await Promise.race([human, timer]);
 
                 // human promise will only finish if correct answer was clicked -> no need to check the answer
                 if ((firstToFinish === CONTESTANTS.HUMAN) || (firstToFinish === CONTESTANTS.TIMEOUT))
@@ -90,33 +88,43 @@
 
             };
 
-            obj.fight = async function(human, model){
+            obj.fight = async function(human){
                 // first loop through all perturbations (if any) and show each for short time to human and to machine
                 if (obj.data.perturbations){
                     for (let i in obj.data.perturbations){
                         obj.setPerturbation(obj.data.perturbations[i]);
-                        const winner = await obj.fightOnce(human, model, obj.PERTURBATION_TIMEOUT);
+                        const winner = await obj.fightOnce(human, obj.PERTURBATION_TIMEOUT);
                         if (winner !== CONTESTANTS.TIMEOUT)
                             return winner;
                     }
                 }
                 // show the clean image for a longer time
-                return await obj.fightOnce(human, model, obj.CLEAN_IMAGE_TIMEOUT);
+                return await obj.fightOnce(human, obj.CLEAN_IMAGE_TIMEOUT);
             };
 
 
-            obj.run = async function(model){
-                await obj.loadData();
+            obj.run = async function(){
+                // let user know category of the round
+                await app.showInfoScreen("instructions", {text: "RULES"+obj.data.roundId, category: obj.data.category}, "onclick");
 
-                // prepare the UI
+                // user can see the answers already before image is shown to get prepared
                 obj.showAnswers();
-                await app.showInfoScreen("countdown", {length: 3}, "ontimeout");
+
+                // show countdown screen
+                const countdown = app.showInfoScreen("countdown", {length: 3, overlay: true}, "ontimeout");
+
+                // show image, this will be shown behind the countdown screen, i.e. not visible yet
+                // showing the image takes some time but there is no option of getting a callback :-(
+                // hopefully countdown is enough time to fully draw the image on the canvas
                 const initialPerturbation = obj.data.perturbations ? obj.data.perturbations[0]: null;
                 obj.showImage(initialPerturbation);
 
+                // when countdown has run out the countdown screen will be unmounted and the image revealed
+                await countdown;
+
                 // fight!
                 const human = obj.enableHuman();
-                const winner = await obj.fight(human, model);
+                const winner = await obj.fight(human);
 
                 // disable
                 obj.removeAnswers();
@@ -130,31 +138,18 @@
 
         app.run = async function() {
             // animated intro
-            await app.showInfoScreen("intro", {}, "onclick");
+            //await app.showInfoScreen("intro", {}, "onclick");
 
             // spinner while loading data
-            const data = await app.loadData(opts);
+            const data = await app.showLoadingScreen(prepareData(opts));
 
-            // rules
-            await app.showInfoScreen("instructions", {text: "RULES"}, "onclick");
-
-            // round1
-            const round1 = app.initChallenge(data.rounds[0]);
-            const winner1 = await round1.run(data.model);
-            await app.showInfoScreen("instructions", {text: "ROUND1_"+winner1+"_WINS", overlay: true}, "onclick");
-            round1.unmount();
-
-            // round2
-            const round2 = app.initChallenge(data.rounds[1]);
-            const winner2 = await round2.run(data.model);
-            await app.showInfoScreen("instructions", {text: "ROUND1_"+winner2+"_WINS", overlay: true}, "onclick");
-            round2.unmount();
-
-            // round3
-            const round3 = app.initChallenge(data.rounds[2]);
-            const winner3 = await round3.run(data.model);
-            await app.showInfoScreen("instructions", {text: "ROUND1_"+winner3+"_WINS", overlay: true}, "onclick");
-            round3.unmount();
+            // main game
+            for (let i in data.rounds){
+                const challenge = app.Challenge(data.rounds[i], data.model);
+                const winner = await challenge.run();
+                await app.showInfoScreen("instructions", {text: "ROUND1_"+winner+"_WINS", overlay: true, maxOpacity:95, fadeIn: true}, "onclick");
+                challenge.unmount();
+            }
         };
 
 

@@ -7,7 +7,7 @@
 
         /* parameters given to this app
         opts.answer: List of answers (strings)
-        opts.correct: Index of correct answer in opts.answers
+        opts.correct: Correct answer (string)
         opts.disabled: Whether input is disabled (true/false)
         opts.onselected: Function to call when answer has been selected,
                          callback parameters: true (correct answer) or false (incorrect answer)
@@ -19,11 +19,15 @@
             this.answers[i] = {"name": opts.answers[i], "index": i, "state": "default"};
 
         this.checkAnswer = function(e) {
-            const selected = e.item.answer.index;
-            if (selected == opts.correct) {
-                this.answers[selected].state = "correct";
+            const selected = e.item.answer;
+            if (selected.name === opts.correct) {
+                this.answers[selected.index].state = "correct";
                 opts.onselected(CONTESTANTS.HUMAN);
             }
+            else {
+                this.answers[selected.index].state = "incorrect";
+            }
+
         }
 
     </script>

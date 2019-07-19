@@ -1,1 +1,3 @@
 .idea
+imagenet/imagenet_classes.js
+public/images/original/*.jpg

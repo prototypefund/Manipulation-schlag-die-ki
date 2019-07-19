@@ -39,3 +39,8 @@ button.button-primary:hover {
 instructions {
     color: #555;
 }
+
+strong {
+    color: #000;
+    font-weight: 500;
+}
