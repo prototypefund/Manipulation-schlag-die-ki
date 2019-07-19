@@ -1,7 +1,7 @@
 const PERTURBATION_TYPES = {"NONE": "NONE", "NOISE": "NOISE", "ADVERSARIAL": "ADVERSARIAL"};
 const PERTURBATION_LEVELS = [210, 185, 160, 135, 110, 85, 60, 35, 15];
 
-const IMAGE_PATH = "images/original/";
+const IMAGE_PATH = "images/400x300/";
 const IMAGES = [
     {"category": "vegetable", "label": "bell pepper", "image": "22412161608_b4e56f6f68_o.jpg"},
     {"category": "vegetable", "label": "cucumber", "image": "20086102049_6a6fe8324b_o.jpg"},

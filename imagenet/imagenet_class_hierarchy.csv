@@ -621,33 +621,33 @@ id;name;p0;p1;p2;p3;p4;p5;p6;p7;p8;p9;p10;p11;;;;grouped label;category
 123;spiny lobster, langouste, rock lobster, crawfish, crayfish, sea crawfish;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;crustacean;decapod crustacean, decapod;lobster; ; ; ; ; ;;;;crustacean;animal
 124;crayfish, crawfish, crawdad, crawdaddy;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;crustacean;decapod crustacean, decapod; ; ; ; ; ; ;;;;crustacean;animal
 125;hermit crab;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;crustacean;decapod crustacean, decapod; ; ; ; ; ; ;;;;crustacean;animal
-300;tiger beetle;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;beetle; ; ; ; ; ; ;;;;insect;animal
-301;ladybug, ladybeetle, lady beetle, ladybird, ladybird beetle;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;beetle; ; ; ; ; ; ;;;;insect;animal
-302;ground beetle, carabid beetle;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;beetle; ; ; ; ; ; ;;;;insect;animal
-303;long-horned beetle, longicorn, longicorn beetle;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;beetle; ; ; ; ; ; ;;;;insect;animal
-304;leaf beetle, chrysomelid;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;beetle; ; ; ; ; ; ;;;;insect;animal
-305;dung beetle;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;beetle;lamellicorn beetle;scarabaeid beetle, scarabaeid, scarabaean; ; ; ; ;;;;insect;animal
-306;rhinoceros beetle;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;beetle;lamellicorn beetle;scarabaeid beetle, scarabaeid, scarabaean; ; ; ; ;;;;insect;animal
-307;weevil;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;beetle; ; ; ; ; ; ;;;;insect;animal
-308;fly;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;dipterous insect, two-winged insects, dipteran, dipteron; ; ; ; ; ; ;;;;insect;animal
-310;ant, emmet, pismire;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;hymenopterous insect, hymenopteran, hymenopteron, hymenopter; ; ; ; ; ; ;;;;insect;animal
-309;bee;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;hymenopterous insect, hymenopteran, hymenopteron, hymenopter; ; ; ; ; ; ;;;;insect;animal
-311;grasshopper, hopper;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;orthopterous insect, orthopteron, orthopteran; ; ; ; ; ; ;;;;insect;animal
-312;cricket;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;orthopterous insect, orthopteron, orthopteran; ; ; ; ; ; ;;;;insect;animal
-313;walking stick, walkingstick, stick insect;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;phasmid, phasmid insect; ; ; ; ; ; ;;;;insect;animal
-314;cockroach, roach;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;dictyopterous insect; ; ; ; ; ; ;;;;insect;animal
-315;mantis, mantid;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;dictyopterous insect; ; ; ; ; ; ;;;;insect;animal
-316;cicada, cicala;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;homopterous insect, homopteran; ; ; ; ; ; ;;;;insect;animal
-317;leafhopper;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;homopterous insect, homopteran; ; ; ; ; ; ;;;;insect;animal
-318;lacewing, lacewing fly;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;neuropteron, neuropteran, neuropterous insect; ; ; ; ; ; ;;;;insect;animal
-319;dragonfly, darning needle, devil's darning needle, sewing needle, snake feeder, snake doctor, mosquito hawk, skeeter hawk;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;odonate; ; ; ; ; ; ;;;;insect;animal
-320;damselfly;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;odonate; ; ; ; ; ; ;;;;insect;animal
-321;admiral;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;lepidopterous insect, lepidopteron, lepidopteran;butterfly;nymphalid, nymphalid butterfly, brush-footed butterfly, four-footed butterfly; ; ; ; ;;;;insect;animal
-322;ringlet, ringlet butterfly;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;lepidopterous insect, lepidopteron, lepidopteran;butterfly; ; ; ; ; ;;;;insect;animal
-323;monarch, monarch butterfly, milkweed butterfly, Danaus plexippus;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;lepidopterous insect, lepidopteron, lepidopteran;butterfly;danaid, danaid butterfly; ; ; ; ;;;;insect;animal
-324;cabbage butterfly;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;lepidopterous insect, lepidopteron, lepidopteran;butterfly;pierid, pierid butterfly; ; ; ; ;;;;insect;animal
-325;sulphur butterfly, sulfur butterfly;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;lepidopterous insect, lepidopteron, lepidopteran;butterfly; ; ; ; ; ;;;;insect;animal
-326;lycaenid, lycaenid butterfly;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;lepidopterous insect, lepidopteron, lepidopteran;butterfly; ; ; ; ; ;;;;insect;animal
+300;tiger beetle;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;beetle; ; ; ; ; ; ;;;;;
+301;ladybug, ladybeetle, lady beetle, ladybird, ladybird beetle;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;beetle; ; ; ; ; ; ;;;;;
+302;ground beetle, carabid beetle;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;beetle; ; ; ; ; ; ;;;;;
+303;long-horned beetle, longicorn, longicorn beetle;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;beetle; ; ; ; ; ; ;;;;;
+304;leaf beetle, chrysomelid;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;beetle; ; ; ; ; ; ;;;;;
+305;dung beetle;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;beetle;lamellicorn beetle;scarabaeid beetle, scarabaeid, scarabaean; ; ; ; ;;;;;
+306;rhinoceros beetle;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;beetle;lamellicorn beetle;scarabaeid beetle, scarabaeid, scarabaean; ; ; ; ;;;;;
+307;weevil;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;beetle; ; ; ; ; ; ;;;;;
+308;fly;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;dipterous insect, two-winged insects, dipteran, dipteron; ; ; ; ; ; ;;;;fly;animal
+310;ant, emmet, pismire;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;hymenopterous insect, hymenopteran, hymenopteron, hymenopter; ; ; ; ; ; ;;;;ant;animal
+309;bee;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;hymenopterous insect, hymenopteran, hymenopteron, hymenopter; ; ; ; ; ; ;;;;bee;animal
+311;grasshopper, hopper;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;orthopterous insect, orthopteron, orthopteran; ; ; ; ; ; ;;;;grasshopper, hopper;animal
+312;cricket;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;orthopterous insect, orthopteron, orthopteran; ; ; ; ; ; ;;;;;
+313;walking stick, walkingstick, stick insect;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;phasmid, phasmid insect; ; ; ; ; ; ;;;;;
+314;cockroach, roach;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;dictyopterous insect; ; ; ; ; ; ;;;;;
+315;mantis, mantid;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;dictyopterous insect; ; ; ; ; ; ;;;;;
+316;cicada, cicala;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;homopterous insect, homopteran; ; ; ; ; ; ;;;;;
+317;leafhopper;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;homopterous insect, homopteran; ; ; ; ; ; ;;;;;
+318;lacewing, lacewing fly;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;neuropteron, neuropteran, neuropterous insect; ; ; ; ; ; ;;;;;
+319;dragonfly, darning needle, devil's darning needle, sewing needle, snake feeder, snake doctor, mosquito hawk, skeeter hawk;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;odonate; ; ; ; ; ; ;;;;;
+320;damselfly;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;odonate; ; ; ; ; ; ;;;;;
+321;admiral;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;lepidopterous insect, lepidopteron, lepidopteran;butterfly;nymphalid, nymphalid butterfly, brush-footed butterfly, four-footed butterfly; ; ; ; ;;;;butterfly;
+322;ringlet, ringlet butterfly;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;lepidopterous insect, lepidopteron, lepidopteran;butterfly; ; ; ; ; ;;;;butterfly;animal
+323;monarch, monarch butterfly, milkweed butterfly, Danaus plexippus;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;lepidopterous insect, lepidopteron, lepidopteran;butterfly;danaid, danaid butterfly; ; ; ; ;;;;butterfly;animal
+324;cabbage butterfly;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;lepidopterous insect, lepidopteron, lepidopteran;butterfly;pierid, pierid butterfly; ; ; ; ;;;;butterfly;animal
+325;sulphur butterfly, sulfur butterfly;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;lepidopterous insect, lepidopteron, lepidopteran;butterfly; ; ; ; ; ;;;;butterfly;animal
+326;lycaenid, lycaenid butterfly;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;arthropod;insect;lepidopterous insect, lepidopteron, lepidopteran;butterfly; ; ; ; ; ;;;;butterfly;animal
 107;jellyfish;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;coelenterate, cnidarian; ; ; ; ; ; ; ; ;;;;;
 108;sea anemone, anemone;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;coelenterate, cnidarian;anthozoan, actinozoan; ; ; ; ; ; ; ;;;;;
 109;brain coral;organism, being;animal, animate being, beast, brute, creature, fauna;invertebrate;coelenterate, cnidarian;anthozoan, actinozoan;coral;stony coral, madrepore, madriporian coral; ; ; ; ; ;;;;;
