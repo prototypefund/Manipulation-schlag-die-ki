@@ -10,7 +10,6 @@
                 pixels.data.set(opts.perturbation);
                 tag.ctx.putImageData(pixels, 0, 0);
             }
-
             tag.ctx.globalCompositeOperation='destination-over'; // drawn behind the perturbation
             tag.ctx.drawImage(opts.image,0,0, canvas.width, canvas.height);
         };

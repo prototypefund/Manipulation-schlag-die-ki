@@ -1,3 +1,4 @@
 .idea
-imagenet/imagenet_classes.js
-public/images/original/*.jpg
+adversarial/mobilenet_v1_0.25_224/
+imagenet/imagenetClasses.js
+public/images/original/fullsize/*.jpg

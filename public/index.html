@@ -41,12 +41,18 @@
     <script src="scripts/tags/game/instructions.tag.html" type="riot/tag"></script>
     <script src="scripts/tags/game/spinner.tag.html" type="riot/tag"></script>
 
+    <script src="scripts/types/enums.js"></script>
+    <script src="scripts/types/imagenetClasses.js"></script>
+    <script src="scripts/config.js"></script>
+
+    <script src="scripts/ai/mobilenetWrapper.js"></script>
+    <script src="scripts/ai/ai.js"></script>
+    <script src="scripts/ai/perturbation.js"></script>
+    <script src="scripts/ai/FGSM.js"></script>
+
     <script src="scripts/util.js"></script>
-    <script src="scripts/data.js"></script>
-    <script src="scripts/attack.js"></script>
     <script src="scripts/prepareData.js"></script>
-    <script src="scripts/model.js"></script>
-    <script src="scripts/imagenet_classes.js"></script>
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/riot/3.13.2/riot+compiler.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.2.2"> </script>
@@ -54,13 +60,8 @@
 
     <script>
 
-        const IMAGE_WIDTH = 400;
-        const IMAGE_HEIGHT = 300;
-        const CONTESTANTS = {"HUMAN": "HUMAN", "MACHINE": "MACHINE", "TIMEOUT": "TIMEOUT"};
-        const RESULTS = {"CORRECT": "CORRECT", "INCORRECT": "INCORRECT"};
-
         // order is important, app has to be mounted first. otherwise app can not properly mount child tags (dunno why)
-        riot.mount('app', DATA);
+        riot.mount('app', CONFIG);
         riot.mount('header');
         riot.mount('footer');
     </script>

@@ -70,9 +70,9 @@
             obj.unmount = obj.removeImage;
 
             obj.fightOnce = async function(human, length){
-                //const machine = obj.model.predictAndCheck(obj.image.canvas, obj.data.category, obj.data.label);
+                const machine = AIContestant(model).predictAndCheck(obj.image.canvas, obj.data.category, obj.data.label);
                 const timer = obj.setTimer(length);
-                const [firstToFinish, result] = await Promise.race([human, timer]);
+                const [firstToFinish, result] = await Promise.race([human,machine,timer]);
 
                 // human promise will only finish if correct answer was clicked -> no need to check the answer
                 if ((firstToFinish === CONTESTANTS.HUMAN) || (firstToFinish === CONTESTANTS.TIMEOUT))

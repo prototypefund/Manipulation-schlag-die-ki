@@ -41,4 +41,4 @@ hierarchy = read_csv("imagenet_class_hierarchy.csv")
 
 categories = extract_categories(hierarchy)
 classes = extract_classes(hierarchy)
-write_js({"IMAGENET_CATEGORIES": categories, "IMAGENET_CLASSES": classes}, "imagenet_classes.js")
+write_js({"IMAGENET_CATEGORIES": categories, "IMAGENET_CLASSES": classes}, "imagenetClasses.js")

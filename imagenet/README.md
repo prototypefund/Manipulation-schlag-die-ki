@@ -35,12 +35,12 @@ Please see file imagenet_class_hierarchy.csv for the categories and grouped labe
 
 Run `python csv_to_json.py`
 
-This will create a file `imagenet_classes.js` which contains two constants:
+This will create a file `imagenetClasses.js` which contains two constants:
 
 * **IMAGENET_CATEGORIES** maps categories to labels and classes, i.e. {category: {label: [classes]}}
 * **IMAGENET_CLASSES** maps class indexes to the original imagenet class names, i.e. {class: name} 
    
 ### Copy the generated JS to public folder
 
-Check that the generated code is what you expected. Then run `cp imagenet_classes.js ../public/scripts/`. 
+Check that the generated code is what you expected. Then run `cp imagenetClasses.js ../public/scripts/`. 
 Avoided to automate this due to risks of code injections when automatically generating code.

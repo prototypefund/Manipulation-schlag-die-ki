@@ -1,4 +1,3 @@
-
 function Timer(stepLength, totalSteps, onStep, onTimeout){
     let obj = {};
 
@@ -30,19 +29,6 @@ function Timer(stepLength, totalSteps, onStep, onTimeout){
 }
 
 
-function zip(array1, array2){
-    if (array1.length != array2.length)
-        throw Error("Arrays for zip must be the same length");
-    return array1.map((value1, index) => [value1, array2[index]]);
-}
-
-function* range(start, end, step){
-    if (step < 0)
-        throw Error("Negative ranges not supported");
-    for (let i=start; i<end; i+=step)
-        yield i;
-}
-
 
 function shuffle(a) {
     a = [...a]; // copy
@@ -54,4 +40,22 @@ function shuffle(a) {
         a[j] = x;
     }
     return a;
+}
+
+
+
+function preloadImage(imagePath, width, height) {
+    return new Promise((resolve, reject) => {
+        let image = new Image();
+        image.crossOrigin = "anonymous";
+        image.onload = () => resolve(image);
+        image.onerror = error => reject(error);
+        image.src = imagePath;
+        image.width = width;
+        image.height = height;
+    });
+}
+
+async function imageFromTensor(tensor){
+
 }

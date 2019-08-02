@@ -40,7 +40,7 @@ instructions {
     color: #555;
 }
 
-strong {
+instructions strong {
     color: #000;
     font-weight: 500;
 }
