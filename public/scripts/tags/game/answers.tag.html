@@ -1,6 +1,6 @@
 <answers>
     <div each={answer in this.answers}>
-        <button onclick={this.checkAnswer} class={answer.state} disabled={opts.disabled}>{answer.name}</button>
+        <button onclick={this.checkAnswer} class={answer.state} disabled={opts.disabled}>{answer.translation}</button>
     </div>
 
     <script>
@@ -16,11 +16,11 @@
         // in addition to answer name (given as a parameter), also need index (more convenient) and state
         this.answers = [];
         for (var i = 0; i < opts.answers.length; i++)
-            this.answers[i] = {"name": opts.answers[i], "index": i, "state": "default"};
+            this.answers[i] = {"translation":opts.answersTranslated[i], "label": opts.answers[i], "index": i, "state": "default"};
 
         this.checkAnswer = function(e) {
             const selected = e.item.answer;
-            if (selected.name === opts.correct) {
+            if (selected.label === opts.correct) {
                 this.answers[selected.index].state = "correct";
                 opts.onselected(CONTESTANTS.HUMAN);
             }

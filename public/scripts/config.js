@@ -1,6 +1,8 @@
 const CONFIG = {};
 
-CONFIG.MODEL = "https://storage.googleapis.com/tfjs-models/tfjs/mobilenet_v1_0.25_224/model.json";
+CONFIG.TRANSLATION = TRANSLATION.GERMAN;
+
+CONFIG.MODEL = "https://storage.googleapis.com/tfjs-models/tfjs/mobilenet_v1_0.75_224/model.json";
 CONFIG.MODEL_NAME = CONFIG.MODEL.split("/").slice(-2)[0]; // modelname is hopefully second to last element
 
 CONFIG.IMAGE_WIDTH = 400;

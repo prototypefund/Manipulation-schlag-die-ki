@@ -4,16 +4,16 @@
 
     <div if={ opts.text=="RULES1" } class="dashed-border">
         <h2>So funktionierts:</h2>
-        <h5>Hier erscheint gleich ein Bild. Welches <strong>{opts.category}</strong> ist darauf zu sehen?</h5>
+        <h5>Hier erscheint gleich ein Bild. {opts.category.article} <strong>{opts.category.category}</strong> ist darauf zu sehen?</h5>
         <h5> Die KI läuft im Hintergrund und sieht das gleiche Bild. Wer zuerst richtig antwortet, bekommt einen Punkt.</h5>
     </div>
 
     <div if={ opts.text=="RULES2" } class="dashed-border">
-        <h5>Jetzt wirds schwieriger! Das nächste Bild ist ein bisschen verrauscht. Welches <strong>{opts.category}</strong> ist zu sehen?</h5>
+        <h5>Jetzt wirds schwieriger! Das nächste Bild ist ein bisschen verrauscht.  {opts.category.article} <strong>{opts.category.category}</strong>  ist zu sehen?</h5>
     </div>
 
     <div if={ opts.text=="RULES3" } class="dashed-border">
-        <h5>Letzte Runde! Welches <strong>{opts.category}</strong> ist zu sehen?</h5>
+        <h5>Letzte Runde!  {opts.category.article} <strong>{opts.category.category}</strong>  ist zu sehen?</h5>
     </div>
 
     <div if={ opts.text=="ROUND1_HUMAN_WINS" }>

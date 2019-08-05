@@ -29,9 +29,6 @@ const IMAGENET_CATEGORIES = {
         "broccoli": [
             "937"
         ],
-        "cauliflower": [
-            "938"
-        ],
         "cucumber": [
             "943"
         ],
@@ -86,10 +83,8 @@ const IMAGENET_CATEGORIES = {
         "harp": [
             "594"
         ],
-        "acoustic guitar": [
-            "402"
-        ],
-        "electric guitar": [
+        "guitar": [
+            "402",
             "546"
         ],
         "trumpet": [
@@ -102,44 +97,9 @@ const IMAGENET_CATEGORIES = {
             "776"
         ]
     },
-    "weapon": {
-        "missile": [
-            "657"
-        ],
-        "bow": [
-            "456"
-        ],
-        "cannon": [
-            "471"
-        ],
-        "assault rifle": [
-            "413"
-        ],
-        "revolve": [
-            "763"
-        ],
-        "rifle": [
-            "764"
-        ],
-        "projectile": [
-            "744"
-        ]
-    },
     "tool": {
         "hatchet": [
             "596"
-        ],
-        "cleaver": [
-            "499"
-        ],
-        "letter opener": [
-            "623"
-        ],
-        "plane": [
-            "726"
-        ],
-        "mower": [
-            "621"
         ],
         "hammer": [
             "587"
@@ -150,40 +110,11 @@ const IMAGENET_CATEGORIES = {
         "can opener": [
             "473"
         ],
-        "plunger": [
-            "731"
-        ],
         "screwdriver": [
             "784"
         ],
         "shovel": [
             "792"
-        ],
-        "plough": [
-            "730"
-        ]
-    },
-    "kitchen utensil": {
-        "Crock Pot": [
-            "521"
-        ],
-        "frying pan": [
-            "567"
-        ],
-        "wok": [
-            "909"
-        ],
-        "cauldron": [
-            "469"
-        ],
-        "coffeepot": [
-            "505"
-        ],
-        "teapot": [
-            "849"
-        ],
-        "spatula": [
-            "813"
         ]
     },
     "vehicle": {
@@ -213,16 +144,6 @@ const IMAGENET_CATEGORIES = {
         "moped": [
             "665"
         ],
-        "truck": [
-            "555",
-            "569",
-            "717",
-            "864",
-            "867",
-            "675",
-            "734",
-            "757"
-        ],
         "watercraft": [
             "554",
             "576",
@@ -246,132 +167,7 @@ const IMAGENET_CATEGORIES = {
             "779"
         ]
     },
-    "furniture": {
-        "baby bed": [
-            "431",
-            "516",
-            "520"
-        ],
-        "bed": [
-            "564"
-        ],
-        "bookcase": [
-            "453"
-        ],
-        "cabinet": [
-            "495",
-            "648",
-            "553"
-        ],
-        "commode": [
-            "493"
-        ],
-        "lamp": [
-            "846"
-        ],
-        "bench": [
-            "703"
-        ],
-        "chair": [
-            "423",
-            "857",
-            "559",
-            "765"
-        ],
-        "couch": [
-            "831"
-        ],
-        "desk": [
-            "526"
-        ],
-        "table": [
-            "532"
-        ],
-        "closet": [
-            "894"
-        ]
-    },
-    "clothing": {
-        "shoe": [
-            "774",
-            "770",
-            "630",
-            "514",
-            "502"
-        ],
-        "swimwear": [
-            "842",
-            "639",
-            "445",
-            "834"
-        ],
-        "skirt": [
-            "601",
-            "655",
-            "689"
-        ],
-        "jacket/coat": [
-            "735",
-            "568",
-            "869"
-        ],
-        "sweatshirt": [
-            "841"
-        ],
-        "cardigan": [
-            "474"
-        ],
-        "shirt": [
-            "610"
-        ],
-        "hat": [
-            "452",
-            "439",
-            "515",
-            "808"
-        ]
-    },
-    "kitchen appliance": {
-        "espresso maker": [
-            "550"
-        ],
-        "microwave": [
-            "651"
-        ],
-        "Dutch oven": [
-            "544"
-        ],
-        "rotisserie": [
-            "766"
-        ],
-        "toaster": [
-            "859"
-        ],
-        "waffle iron": [
-            "891"
-        ]
-    },
     "animal": {
-        "arachnid": [
-            "70",
-            "72",
-            "73",
-            "74",
-            "75",
-            "76",
-            "77"
-        ],
-        "crustacean": [
-            "126",
-            "118",
-            "119",
-            "120",
-            "121",
-            "122",
-            "123",
-            "124",
-            "125"
-        ],
         "fly": [
             "308"
         ],
@@ -385,6 +181,7 @@ const IMAGENET_CATEGORIES = {
             "311"
         ],
         "butterfly": [
+            "321",
             "322",
             "323",
             "324",
@@ -948,7 +745,7 @@ const IMAGENET_CLASSES = {
     "609": "jeep, landrover",
     "627": "limousine, limo",
     "656": "minivan",
-    "661": "MobilenetWrapper T",
+    "661": "ModelWrapper T",
     "751": "racer, race car, racing car",
     "817": "sports car, sport car",
     "573": "go-kart",
@@ -1703,5 +1500,3 @@ const IMAGENET_CLASSES = {
     "395": "gar, garfish, garpike, billfish, Lepisosteus osseus"
 };
 
-if (typeof module !== 'undefined' && typeof module.exports !== 'undefined')
-    module.exports = {IMAGENET_CLASSES, IMAGENET_CATEGORIES};

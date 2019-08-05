@@ -27,13 +27,9 @@
             obj.PERTURBATION_TIMEOUT = 300;     // how long image with perturbation is shown
 
             obj.showAnswers = function(){
-                const possibleAnswers = Object.keys(IMAGENET_CATEGORIES[obj.data.category]);
-                const incorrectAnswers = possibleAnswers.filter(answer => answer != obj.data.label);
-                const selectedIncorrectAnswers = shuffle(incorrectAnswers).slice(0,2);
-                const answers = shuffle(selectedIncorrectAnswers.concat(obj.data.label));
-
                 obj.answers = {};
-                obj.answers.opts = {answers: answers, correct: obj.data.label, disabled: true, onselected: () => {}};
+                obj.answers.opts = {answers: obj.data.answers, answersTranslated: obj.data.answersTranslated,
+                                    correct: obj.data.label, disabled: true, onselected: () => {}};
                 obj.answers.mount = riot.mount("answers", obj.answers.opts)[0];
             };
 
@@ -105,7 +101,7 @@
 
             obj.run = async function(){
                 // let user know category of the round
-                await app.showInfoScreen("instructions", {text: "RULES"+obj.data.roundId, category: obj.data.category}, "onclick");
+                await app.showInfoScreen("instructions", {text: "RULES"+obj.data.roundId, category: obj.data.categoryTranslated}, "onclick");
 
                 // user can see the answers already before image is shown to get prepared
                 obj.showAnswers();

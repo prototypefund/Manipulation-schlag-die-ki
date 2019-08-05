@@ -60,7 +60,7 @@ function generateAdversarials(originalImage, perturbationLevels, model){
 
 // returns the original image + the perturbation with opacity 255; original image will be shown behind but not visible
 function loadPrefabricatedAdversarials(originalImage, perturbationLevels, adversarialDirectory){
-    // finding the right adversarial image for the perturbation level
+    // finding the right prefabricate_adversarials image for the perturbation level
     const path = originalImage.src.split("/").slice(-1)[0];
     const [baseName, ext] = path.split(".");
     const getAdversarialName = perturbationLevel => baseName + "." + perturbationLevel +"." + ext;

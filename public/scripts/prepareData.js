@@ -36,7 +36,9 @@ async function prepareRound(model, roundId, category, config){
 
     return {roundId: roundId+1, // humans count from 1
             category: category, label: imageConfig.label, answers: answers,
-            image: imageData, perturbations: perturbations};
+            image: imageData, perturbations: perturbations,
+            categoryTranslated: config.TRANSLATION.CATEGORIES[category],
+            answersTranslated: answers.map(a => config.TRANSLATION.ANSWERS[category][a])};
 
 }
 
