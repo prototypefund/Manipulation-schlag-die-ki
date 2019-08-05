@@ -17,10 +17,12 @@
         <header></header>
         <app></app>
 
+        <!-- do not want these tags to be auto-mounted. that is why they can not be children of <app>, even though that would be more fitting -->
         <intro></intro>
         <spinner></spinner>
         <instructions></instructions>
         <countdown></countdown>
+        <error></error>
         <div id="challenge-container">
             <challenge></challenge>
             <answers></answers>
@@ -40,6 +42,7 @@
     <script src="scripts/tags/game/overlay.tag.html" type="riot/tag"></script>
     <script src="scripts/tags/game/instructions.tag.html" type="riot/tag"></script>
     <script src="scripts/tags/game/spinner.tag.html" type="riot/tag"></script>
+    <script src="scripts/tags/game/error.tag.html" type="riot/tag"></script>
 
     <script src="scripts/types/enums.js"></script>
     <script src="scripts/types/imagenetClasses.js"></script>

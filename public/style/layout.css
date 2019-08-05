@@ -28,7 +28,7 @@ intro, spinner {
     grid-area: content;
 }
 
-instructions, #challenge-container, countdown {
+instructions, #challenge-container, countdown, error {
     grid-area: content;
     display: grid;
     grid-gap: 6rem;
@@ -40,7 +40,7 @@ instructions, #challenge-container, countdown {
        " . sub  . "
 }
 
-challenge, instructions > div, instructions > overlay, countdown > overlay, countdown > div {
+challenge, instructions > div, instructions > overlay, countdown > overlay, countdown > div, error > div, error > overlay {
     grid-area: main;
     justify-self: stretch; /* makes sure whole width is used */
 }
@@ -49,7 +49,7 @@ answers, instructions > button {
     grid-area: sub;
 }
 
-canvas, instructions > div, instructions > overlay, countdown > overlay, countdown > div {
+canvas, instructions > div, instructions > overlay, countdown > overlay, countdown > div, error > div, error > overlay {
     width: 100%;
     height: 100%;
 }
@@ -73,7 +73,7 @@ countdown > div, spinner {
 }
 
 
-instructions > div {
+instructions > div, error > div {
     width: 100%;
     height: 100%;
     display: grid;
@@ -105,5 +105,9 @@ instructions > div, countdown > div {
 }
 
 button {
+    z-index: 3;
+}
+
+error > div {
     z-index: 4;
 }

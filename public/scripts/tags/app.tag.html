@@ -8,7 +8,8 @@
             return new Promise((resolve, reject) => {
                 let mounted = null;
                 opts = opts || {};
-                opts[resolveOn] = () => {mounted.unmount(true); resolve(arguments)};
+                if (resolveOn)
+                    opts[resolveOn] = () => {mounted.unmount(true); resolve(arguments)};
                 mounted = riot.mount(tag, opts)[0];
             });
         };
@@ -133,18 +134,24 @@
         };
 
         app.run = async function() {
-            // animated intro
-            //await app.showInfoScreen("intro", {}, "onclick");
+            try{
+                // animated intro
+                //await app.showInfoScreen("intro", {}, "onclick");
 
-            // spinner while loading data
-            const data = await app.showLoadingScreen(prepareData(opts));
+                // spinner while loading data
+                const data = await app.showLoadingScreen(prepareData(opts));
 
-            // main game
-            for (let i in data.rounds){
-                const challenge = app.Challenge(data.rounds[i], data.model);
-                const winner = await challenge.run();
-                await app.showInfoScreen("instructions", {text: "ROUND1_"+winner+"_WINS", overlay: true, maxOpacity:95, fadeIn: true}, "onclick");
-                challenge.unmount();
+                // main game
+                for (let i in data.rounds){
+                    const challenge = app.Challenge(data.rounds[i], data.model);
+                    const winner = await challenge.run();
+                    await app.showInfoScreen("instructions", {text: "ROUND1_"+winner+"_WINS", overlay: true, maxOpacity:95, fadeIn: true}, "onclick");
+                    challenge.unmount();
+                }
+            }
+            catch(error){
+                console.log(error);
+                app.showInfoScreen("error", {overlay: true, maxOpacity: 100}, null);
             }
         };
 
