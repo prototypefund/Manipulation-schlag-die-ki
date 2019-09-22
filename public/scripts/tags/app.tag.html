@@ -136,7 +136,7 @@
         app.run = async function() {
             try{
                 // animated intro
-                //await app.showInfoScreen("intro", {}, "onclick");
+                await app.showInfoScreen("intro", {}, "onclick");
 
                 // spinner while loading data
                 const data = await app.showLoadingScreen(prepareData(opts));
